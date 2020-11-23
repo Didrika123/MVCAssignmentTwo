@@ -14,9 +14,11 @@ namespace MVCAssignmentTwo.Models
         public string Name { get; set; }
 
         [Display(Name = "Phone number")]
+        [StringLength(20, MinimumLength = 6)]
         public string PhoneNumber { get; set; }
 
         [Display(Name = "City")]
+        [StringLength(40, MinimumLength = 3)]
         public string City { get; set; }
     }
 }

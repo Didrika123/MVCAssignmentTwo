@@ -18,14 +18,36 @@ namespace MVCAssignmentTwo.Models
             return new PeopleViewModel() { Persons = _peopleRepo.Read() };
         }
 
-        public Person Edit(int id, Person person)//What to use id for?
+        public Person Edit(int id, Person person)//What to use id for? Should Person maybe be sort of lacking ID
         {
-            return _peopleRepo.Update(person); 
+            return _peopleRepo.Update(person);
         }
 
         public PeopleViewModel FindBy(PeopleViewModel search)
         {
-            throw new NotImplementedException();
+            //Finding
+            string query = search.SearchQuery ?? "";
+
+            if (search.CaseSensitive)
+                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.Contains(query) || n.City.Contains(query));
+            else
+                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.ToLower().Contains(query.ToLower()) || n.City.ToLower().Contains(query.ToLower()));
+
+
+            //Sorting
+            if (search.Sort == PeopleViewModel.SortMode.None)
+                search.Persons = search.Persons;
+            else if (search.Sort == PeopleViewModel.SortMode.NameAscending)
+                search.Persons.Sort((a, b) => a.Name.CompareTo(b.Name));
+            else if (search.Sort == PeopleViewModel.SortMode.NameDescending)
+                search.Persons.Sort((a, b) => b.Name.CompareTo(a.Name));
+            else if (search.Sort == PeopleViewModel.SortMode.CityAscending)
+                search.Persons.Sort((a, b) => a.City.CompareTo(b.City));
+            else if (search.Sort == PeopleViewModel.SortMode.CityDescending)
+                search.Persons.Sort((a, b) => b.City.CompareTo(a.City));
+
+
+            return search;
         }
 
         public Person FindBy(int id)

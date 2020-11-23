@@ -7,8 +7,13 @@ namespace MVCAssignmentTwo.Models
 {
     public class InMemoryPeopleRepo : IPeopleRepo
     {
-        private static readonly List<Person> _persons = new List<Person>();
+        private static readonly List<Person> _persons = new List<Person>() { 
+            new Person() { Id = _idCounter++, Name = "Kalle", PhoneNumber =  "556-6622", City = "Storstan" } ,
+            new Person() { Id = _idCounter++, Name = "Morairy", PhoneNumber = "+266 2555", City = "London" },
+            new Person() { Id = _idCounter++, Name = "Kammy", PhoneNumber = "+7733 5", City = "Shire" },
+        };
         private static int _idCounter;
+
         public Person Create(string name, string phoneNumber, string city)
         {
             Person newPerson = new Person()
