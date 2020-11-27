@@ -18,9 +18,10 @@ namespace MVCAssignmentTwo.Models
             return new PeopleViewModel() { Persons = _peopleRepo.Read() };
         }
 
-        public Person Edit(int id, Person person)//What to use id for? Should Person maybe be sort of lacking ID
+        public Person Edit(int id, CreatePersonViewModel person)//What to use id for? Should Person maybe be sort of lacking ID
         {
-            return _peopleRepo.Update(person);
+            Person editPerson = new Person(id, person.Name, person.PhoneNumber, person.City);
+            return _peopleRepo.Update(editPerson);
         }
 
         public PeopleViewModel FindBy(PeopleViewModel search)

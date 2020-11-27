@@ -12,7 +12,7 @@ namespace MVCAssignmentTwo.Models
         PeopleViewModel All();
         PeopleViewModel FindBy(PeopleViewModel search);
         Person FindBy(int id);
-        Person Edit(int id, Person person);
+        Person Edit(int id, CreatePersonViewModel person);
         bool Remove(int id);
     }
 }
