@@ -95,3 +95,37 @@ function DeleteEntry(event, targetId, entryId, actionLink) {
 
 
 }
+
+//REPLACE ALL THESE WITH TARGEt, MODEL, ETC? 
+
+
+function LoadEntries(event, pageId,  targetId, actionLink) {
+    event.preventDefault();
+    $.ajax({
+        url: actionLink,
+        data: { id: pageId }
+    }).done(function (output) {
+        $("#" + targetId).html(output);
+    }).fail(function () {
+        alert("CRITICAL EROOR: CODNT LODE NEXT PAGE");
+    });
+}
+
+
+
+function LoadEntriesSearch(event, htmlForm, pageId, targetId, actionLink) {
+    event.preventDefault();
+    console.log(actionLink);
+    $.ajax({
+        type: "POST",
+        url: actionLink,
+        data: {
+            id: pageId,
+            model: JSON.stringify(getFormData($(htmlForm)))
+        }
+    }).done(function (output) {
+        $("#" + targetId).html(output);
+    }).fail(function () {
+        alert("CRITICAL EROOR: CODNT LODE NEXT PAGE");
+    });
+}

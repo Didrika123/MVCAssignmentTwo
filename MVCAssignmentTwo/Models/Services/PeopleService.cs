@@ -17,6 +17,11 @@ namespace MVCAssignmentTwo.Models
         {
             return new PeopleViewModel() { Persons = _peopleRepo.Read() };
         }
+        public PeopleViewModel All(int pageNr)
+        {
+            return Reduce(new PeopleViewModel() { Persons = _peopleRepo.Read() }, pageNr) ;
+        }
+
 
         public Person Edit(int id, CreatePersonViewModel person)//What to use id for? Should Person maybe be sort of lacking ID
         {
@@ -49,6 +54,30 @@ namespace MVCAssignmentTwo.Models
 
 
             return search;
+        }
+        public PeopleViewModel FindBy(PeopleViewModel search, int pageNr)
+        {
+            return Reduce(FindBy(search), pageNr);
+        }
+
+        private PeopleViewModel Reduce(PeopleViewModel peopleViewModel, int pageNr)
+        {
+            peopleViewModel.PageNumber = pageNr;
+            int count = 2; //Nr of entries per page
+            int index = pageNr * count;
+            if (index + count >= peopleViewModel.Persons.Count)
+            {
+                count = peopleViewModel.Persons.Count - index; //If exceeding the end, just return all that remains
+                peopleViewModel.IsThereMorePages = false;
+            }
+            else peopleViewModel.IsThereMorePages = true;
+
+            if (index < 0 && index >= peopleViewModel.Persons.Count)
+                return null;
+            if (count < 0 && count > peopleViewModel.Persons.Count)
+                return null;
+            peopleViewModel.Persons = peopleViewModel.Persons.GetRange(index, count);
+            return peopleViewModel;
         }
 
         public Person FindBy(int id)

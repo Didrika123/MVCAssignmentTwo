@@ -1,0 +1,17 @@
+﻿@model PeopleViewModel
+
+<form id="peoplesearchform" onsubmit="LoadEntriesSearch(event, this, @Model.PageNumber, 'personlist', '/Register/PersonList');" method="post">
+    <label asp-for="@Model.SearchQuery"></label>
+    <input asp-for="@Model.SearchQuery" placeholder="Enter name or city" />
+    <span asp-validation-for="@Model.SearchQuery"></span>
+
+    <label style="margin-left: 1em;" asp-for="@Model.CaseSensitive"></label>
+    <input type="checkbox" asp-for="@Model.CaseSensitive" />
+    <span asp-validation-for="@Model.CaseSensitive"></span>
+
+    <label style="margin-left: 1em;" asp-for="@Model.Sort"></label>
+    <select asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
+    <span asp-validation-for="@Model.Sort"></span>
+
+    <input style="margin-left: 1em;" type="submit" value="Find" />
+</form>

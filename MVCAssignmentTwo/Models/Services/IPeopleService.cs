@@ -10,7 +10,9 @@ namespace MVCAssignmentTwo.Models
         Person Add(CreatePersonViewModel person);
 
         PeopleViewModel All();
+        PeopleViewModel All(int page);
         PeopleViewModel FindBy(PeopleViewModel search);
+        PeopleViewModel FindBy(PeopleViewModel search, int page);
         Person FindBy(int id);
         Person Edit(int id, CreatePersonViewModel person);
         bool Remove(int id);

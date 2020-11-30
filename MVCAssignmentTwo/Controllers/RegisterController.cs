@@ -23,7 +23,7 @@ namespace MVCAssignmentTwo.Controllers
         [HttpGet]
         public IActionResult People()
         {
-            return View(_peopleService.All());
+            return View(_peopleService.All(0));
         }
 
         [HttpPost]
@@ -39,7 +39,7 @@ namespace MVCAssignmentTwo.Controllers
         [HttpPost]
         public IActionResult Search(PeopleViewModel peopleViewModel)
         {
-            return View("People", _peopleService.FindBy(peopleViewModel));
+            return RedirectToAction(nameof(PersonList)); ;// return PartialView("_PersonListPartialView", _peopleService.FindBy(peopleViewModel, 0));// View("People", _peopleService.FindBy(peopleViewModel));
         }
 
 
@@ -113,8 +113,28 @@ namespace MVCAssignmentTwo.Controllers
             var fromJSON = serializer.Deserialize<CreatePersonViewModel>(model);
             if (fromJSON is CreatePersonViewModel)
                 person = _peopleService.Add(fromJSON as CreatePersonViewModel);
+            //Return  PartialView("_PersonListPartialView", _peopleService.All(id) + NEW PERSON);
+            return RedirectToAction(nameof(PersonList)); //MAybe RETURN PartialView("_PersonListPartialView", _peopleService.All(id));
+        }
 
-            return PartialView("_PersonListPartialView", _peopleService.All().Persons);
+
+
+        [HttpGet]
+        public IActionResult PersonList(int id)
+        {
+            return PartialView("_PersonListPartialView", _peopleService.All(id));
+        }
+        [HttpPost]
+        public IActionResult PersonList(int id, string model)
+        {
+            PeopleViewModel search = null;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var fromJSON = serializer.Deserialize<PeopleViewModel>(model);
+            if (fromJSON is PeopleViewModel)
+                search = fromJSON as PeopleViewModel;
+
+            search ??= new PeopleViewModel();
+            return PartialView("_PersonListPartialView", _peopleService.FindBy(search, id));
         }
     }
 }

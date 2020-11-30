@@ -10,7 +10,10 @@ namespace MVCAssignmentTwo.Models
         private static readonly List<Person> _persons = new List<Person>() { 
             new Person() { Id = _idCounter++, Name = "Kalle", PhoneNumber =  "556-6622", City = "Storstan" } ,
             new Person() { Id = _idCounter++, Name = "Morairy", PhoneNumber = "+266 2555", City = "London" },
-            new Person() { Id = _idCounter++, Name = "Kammy", PhoneNumber = "+7733 5", City = "Shire" },
+            new Person() { Id = _idCounter++, Name = "Kammy", PhoneNumber = "+7733 5", City = "Middle east" },
+            new Person() { Id = _idCounter++, Name = "Martin", PhoneNumber = "+45833 4", City = "Shire" },
+            new Person() { Id = _idCounter++, Name = "Sarah", PhoneNumber = "+71241 5", City = "Lostos" },
+            new Person() { Id = _idCounter++, Name = "Niel", PhoneNumber = "+88863 5", City = "Bologna" },
         };
         private static int _idCounter;
 

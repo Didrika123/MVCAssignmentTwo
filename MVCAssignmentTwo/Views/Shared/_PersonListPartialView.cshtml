@@ -1,4 +1,4 @@
-﻿@model List<Person> 
+﻿@model PeopleViewModel
 
 <div class="container">
     <div class="row">
@@ -15,7 +15,7 @@
             <h3>Action</h3>
         </div>
     </div>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Persons)
     {
         string targetId = "persondiv" + item.Id;
         string buttonId = "personEditBtn" + item.Id;
@@ -24,5 +24,21 @@
             <partial name="_PersonPartialView" model="item" />
         </div>
     }
+    @if (Model.PageNumber > 0)
+    {
+        <button onclick="LoadEntriesSearch(event, '#peoplesearchform', @(Model.PageNumber - 1), 'personlist', '/Register/PersonList/');">Prev</button>
+    }
+    else
+    {
+        <button style="color: gray;">Prev</button>
+    }
 
+    @if (Model.IsThereMorePages)
+    {
+        <button onclick="LoadEntriesSearch(event, '#peoplesearchform', @(Model.PageNumber + 1), 'personlist', '/Register/PersonList/');">Next</button>
+    }
+    else
+    {
+        <button style="color: gray;">Next</button>
+    }
 </div>

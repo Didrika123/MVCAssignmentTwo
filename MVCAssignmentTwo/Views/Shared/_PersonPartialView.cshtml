@@ -16,7 +16,6 @@
     <div class="col-sm-2">
         <p>
             <a onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id">Edit</a>
-            <a asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model.Id">X</a>
             <partial name="_DeletePersonPartialView" model="Model.Id" />
         </p>
     </div>

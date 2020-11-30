@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Peoples";
 }
-<div class="container">
+@*<div class="container">
     <h1>Register of People</h1>
     <form class="form-horizontal" method="post" asp-action="AddPerson" asp-controller="Register">
         <label class="control-label" asp-for="@Model.CreatePersonViewModel.Name"></label>
@@ -63,54 +63,19 @@
             }
         </tbody>
     </table>
-</div>
+</div>*@
 
 
 
 @* For assingment 3 below *@
 
-
-@* Use RenderAction over RenderPartial when you don’t want to send the entire data object out to the View. *@
-@Html.Partial("_CreatePersonPartialView", Model.CreatePersonViewModel)
-
-@*
-        https://stackoverflow.com/questions/25106722/how-to-post-viewmodel-in-mvc-using-jquery
-        https://stackoverflow.com/questions/6114360/ie-prompts-to-open-or-save-json-result-from-server
-    https://stackoverflow.com/questions/9871365/mvc3-passing-viewmodel-to-controller-method-using-jquery-ajax
-
-*@
-
-<div id="personlist">
-    <partial name="_PersonListPartialView" model="Model.Persons" />
-</div>
-
-
 <div class="container">
-    <div class="row">
-        <div class="col-sm-2">
-            <h3>Name</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>City</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>Phone Number</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>Action</h3>
-        </div>
+    @*@Html.Partial("_CreatePersonPartialView", Model.CreatePersonViewModel)*@
+    <partial name="_CreatePersonPartialView" model="Model.CreatePersonViewModel" />
+    <partial name="_SearchPeoplePartialView" model="Model" />
+    <div id="personlist">
+        <partial name="_PersonListPartialView" model="Model" />
     </div>
-    @foreach (var item in Model.Persons)
-    {/*
-string targetId = "persondiv" + item.Id;
-string buttonId = "personEditBtn" + item.Id;
-<div id="@targetId"> @* Maybe can target the actual <partial> instead of an extra div? *@
-    <partial name="_PersonPartialView" model="item" />
-</div>*/
-    }
-
 </div>
 
-
-
-<script src="~/js/registerUtilities.js" asp-append-version="true">//apend verison prevents cachhing by browser because asp will rename the file if altered.</script> 
+<script src="~/js/registerUtilities.js" asp-append-version="true">//apend verison prevents cachhing by browser because asp will rename the file if altered.</script>

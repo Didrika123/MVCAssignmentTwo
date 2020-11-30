@@ -25,11 +25,8 @@ namespace MVCAssignmentTwo.Models
         public string SearchQuery { get; set; }
         public List<Person> Persons { get; set; }
 
-        //Since it was a requirement to have all features in one view and it isnt possible to submit a different viewmodel from a view than the input viewmodel
-        //Needed to add a createperosnviewmodel here so the view can use this one to submit it to the createperson action.
-        //If used partial views then it would be no problem since you could pass the cCreatePersonViewModel to the partial view
-        //But for assignment one where all features in a single big view, Maybe there is a better solution?
-        //aka i wana use partialviews
+        public bool IsThereMorePages { get; set; }
+        public int PageNumber { get; set; }
         public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
     }
 }
