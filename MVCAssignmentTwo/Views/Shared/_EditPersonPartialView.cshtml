@@ -1,0 +1,66 @@
+﻿@*@model CreatePersonViewModel*@
+@model Person
+
+@{
+    string formId = "editpersonform" + Model.Id;
+    string buttonId = "editpersonbutton" + Model.Id;
+    string targetId = "persondiv" + Model.Id;
+}
+<form onsubmit="SubmitEdit(event, this, @Model.Id, '@targetId', '/Register/EditPerson2');" id="@formId" class="form-horizontal" method="post" asp-action="EditPerson2" asp-controller="Register">
+    <label class="control-label" asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" />
+    <span asp-validation-for="Name"></span><br />
+
+    <label class="control-label" asp-for="City"></label>
+    <input class="form-control" asp-for="City" />
+    <span asp-validation-for="City"></span><br />
+
+    <label class="control-label" asp-for="PhoneNumber"></label>
+    <input class="form-control" asp-for="PhoneNumber" />
+    <span asp-validation-for="PhoneNumber"></span><br />
+
+    <input id="@buttonId" type="submit" value="Create" />
+</form>
+
+
+@*<script>
+    
+    function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }
+    document.getElementById("@buttonId").onsubmit = function () { return false; };
+    document.getElementById("@buttonId").onclick = (
+
+        function (e) {
+            var person = {
+                Name: $('#Name').val(), City: "#City", PhoneNumber: "#PhoneNumber",  };
+
+
+            $.ajax({
+                data: {
+                    id: @Model.Id,
+                    model: JSON.stringify(getFormData($("#@formId")))
+                    //model: JSON.stringify($('#editpersonform').serializeArray())
+                },  //JSON.stringify(person)},//{ model: JSON.stringify($('#editpersonform')) },
+                type: "POST",
+                url: "/Register/EditPerson2/id=2", //Im a bit confuse, like isnt this opening up to overposting ?
+
+                success: function (output) {
+                    //code
+                    let sss = "#persondiv" + "@Model.Id"
+                    $(sss).html(output);
+                }
+
+            })
+            e.preventDefault();
+            return false;
+        });
+
+</script>*@

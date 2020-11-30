@@ -1,0 +1,17 @@
+﻿@model CreatePersonViewModel
+
+<form class="form-horizontal" method="post" asp-action="CreatePerson" asp-controller="Register">
+    <label class="control-label" asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" />
+    <span asp-validation-for="Name"></span><br />
+
+    <label class="control-label" asp-for="City"></label>
+    <input class="form-control" asp-for="City" />
+    <span asp-validation-for="City"></span><br />
+
+    <label class="control-label" asp-for="PhoneNumber"></label>
+    <input class="form-control" asp-for="PhoneNumber" />
+    <span asp-validation-for="PhoneNumber"></span><br />
+
+    <input type="submit" value="Create" />
+</form>

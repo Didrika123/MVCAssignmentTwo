@@ -67,6 +67,20 @@
 
 
 
+@* For assingment 3 below *@
+
+
+@* Use RenderAction over RenderPartial when you don’t want to send the entire data object out to the View. *@
+@Html.Partial("_CreatePersonPartialView", Model.CreatePersonViewModel)
+
+@*
+        https://stackoverflow.com/questions/25106722/how-to-post-viewmodel-in-mvc-using-jquery
+        https://stackoverflow.com/questions/6114360/ie-prompts-to-open-or-save-json-result-from-server
+    https://stackoverflow.com/questions/9871365/mvc3-passing-viewmodel-to-controller-method-using-jquery-ajax
+
+*@
+
+
 <div class="container">
     <div class="row">
         <div class="col-sm-2">
@@ -82,10 +96,21 @@
             <h3>Action</h3>
         </div>
     </div>
-
     @foreach (var item in Model.Persons)
     {
-        <partial name="_PersonPartialView" model="item" />
+        string targetId = "persondiv" + item.Id;
+        string buttonId = "personEditBtn" + item.Id;
+        <div id="@targetId">
+            <partial name="_PersonPartialView" model="item" />
+
+            <a onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@item.Id">
+                Update NEW
+            </a>
+            <script>//setupEditPersonButton("@buttonId", "@targetId");</script>
+
+        </div>
     }
 
 </div>
+
+<script src="~/js/registerUtilities.js" asp-append-version="true">//apend verison prevents cachhing by browser because asp will rename the file if altered.</script> 

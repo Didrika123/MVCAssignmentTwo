@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MVCAssignmentTwo.Models;
+using Nancy.Json;
 
 namespace MVCAssignmentTwo.Controllers
 {
@@ -18,6 +19,7 @@ namespace MVCAssignmentTwo.Controllers
         {
             return View();
         }
+
         [HttpGet]
         public IActionResult People()
         {
@@ -40,13 +42,63 @@ namespace MVCAssignmentTwo.Controllers
             return View("People", _peopleService.FindBy(peopleViewModel));
         }
 
+
         public IActionResult DeletePerson(int id)
         {
             _peopleService.Remove(id);
+            return RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
+        }
+
+
+        //For assignment 3 below
+
+        [HttpPost]
+        public IActionResult CreatePerson(CreatePersonViewModel createPersonViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _peopleService.Add(createPersonViewModel);
+            }
             return RedirectToAction(nameof(People));
+        }
+
+        public IActionResult EditPerson(int id)
+        {
+            Person person = _peopleService.FindBy(id);
+            // CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel(person);
+            //return PartialView("_EditPersonPartialView", createPersonViewModel);
+
+            if (person == null)
+                return NotFound(); //404
+
+            return PartialView("_EditPersonPartialView", person);
+        }
+
+        [HttpPost]
+        public IActionResult EditPerson(int id, CreatePersonViewModel personViewModel)
+        {
+            Person person = null;
+            if (ModelState.IsValid)
+            {
+                _peopleService.Edit(id, personViewModel);
+            }
+            person ??= _peopleService.FindBy(id);
+            return PartialView("_PersonPartialView", person);
         }
 
 
 
+        [HttpPost]
+        public IActionResult EditPerson2(int id, string model)
+        {
+            Person person = null;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var fromJSON = serializer.Deserialize<CreatePersonViewModel>(model);
+            if(fromJSON is CreatePersonViewModel)
+                person = _peopleService.Edit(id, fromJSON as CreatePersonViewModel);
+            //Json(fromJSON);//
+            person ??= _peopleService.FindBy(id) ?? new Person();
+            return PartialView("_PersonPartialView", person);
+        }
     }
 }

@@ -20,5 +20,19 @@ namespace MVCAssignmentTwo.Models
         [Display(Name = "City")]
         [StringLength(40, MinimumLength = 3)]
         public string City { get; set; }
+
+        public CreatePersonViewModel()
+        {
+
+        }
+        public CreatePersonViewModel(Person person)
+        {
+            if(person != null)
+            {
+                Name = person.Name;
+                PhoneNumber = person.PhoneNumber;
+                City = person.City;
+            }
+        }
     }
 }

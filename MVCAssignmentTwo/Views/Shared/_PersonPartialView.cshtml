@@ -1,5 +1,9 @@
 ﻿@model Person
 
+@{
+    string targetId = "persondiv" + Model.Id;
+    string buttonId = "personedit" + Model.Id;
+}
 <div class="row">
     <div class="col-sm-2">
         <p>@Model.Name</p>
@@ -11,6 +15,26 @@
         <p>@Model.PhoneNumber</p>
     </div>
     <div class="col-sm-2">
-        <p>@Html.ActionLink("X", "DeletePerson", "Register", new { id = Model.Id }) </p>
+        <p>
+            @Html.ActionLink("X", "DeletePerson", "Register", new { id = Model.Id }) 
+            <a asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model.Id">X</a>
+        </p>
+        
+    </div>
+    <div class="col-sm-2">
+        <a asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id" data-target="@targetId" id="@buttonId">
+            Update
+        </a>
     </div>
 </div>
+
+@* Move the actions out of person partial *@
+<script>
+    $("#@buttonId").click(function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        $.get(_this.attr("href"), function (res) {
+            $('#' + _this.data("target")).html(res);
+        });
+    });
+</script>
