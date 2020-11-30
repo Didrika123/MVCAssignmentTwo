@@ -1,0 +1,14 @@
+﻿
+@model int
+
+@{
+    string targetId = "persondiv" + Model;
+}
+<script> //asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model" </script>
+
+<button onclick="DeleteEntry(event, '@targetId', @Model, '@Url.ActionLink("DeletePerson", "Register")');">X</button>
+
+@if (Model != null)
+{
+
+}

@@ -1,6 +1,6 @@
 ﻿@model CreatePersonViewModel
 
-<form class="form-horizontal" method="post" asp-action="CreatePerson" asp-controller="Register">
+<form onsubmit="CreateEntry(event, this, 'personlist', '/Register/CreatePerson2');" class="form-horizontal" method="post">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
     <span asp-validation-for="Name"></span><br />

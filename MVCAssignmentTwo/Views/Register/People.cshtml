@@ -80,6 +80,10 @@
 
 *@
 
+<div id="personlist">
+    <partial name="_PersonListPartialView" model="Model.Persons" />
+</div>
+
 
 <div class="container">
     <div class="row">
@@ -97,20 +101,16 @@
         </div>
     </div>
     @foreach (var item in Model.Persons)
-    {
-        string targetId = "persondiv" + item.Id;
-        string buttonId = "personEditBtn" + item.Id;
-        <div id="@targetId">
-            <partial name="_PersonPartialView" model="item" />
-
-            <a onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@item.Id">
-                Update NEW
-            </a>
-            <script>//setupEditPersonButton("@buttonId", "@targetId");</script>
-
-        </div>
+    {/*
+string targetId = "persondiv" + item.Id;
+string buttonId = "personEditBtn" + item.Id;
+<div id="@targetId"> @* Maybe can target the actual <partial> instead of an extra div? *@
+    <partial name="_PersonPartialView" model="item" />
+</div>*/
     }
 
 </div>
+
+
 
 <script src="~/js/registerUtilities.js" asp-append-version="true">//apend verison prevents cachhing by browser because asp will rename the file if altered.</script> 

@@ -2,11 +2,9 @@
 @model Person
 
 @{
-    string formId = "editpersonform" + Model.Id;
-    string buttonId = "editpersonbutton" + Model.Id;
     string targetId = "persondiv" + Model.Id;
 }
-<form onsubmit="SubmitEdit(event, this, @Model.Id, '@targetId', '/Register/EditPerson2');" id="@formId" class="form-horizontal" method="post" asp-action="EditPerson2" asp-controller="Register">
+<form onsubmit="EditEntry(event, this, @Model.Id, '@targetId', '/Register/EditPerson2');" class="form-horizontal" method="post" asp-action="EditPerson2" asp-controller="Register">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
     <span asp-validation-for="Name"></span><br />
@@ -19,7 +17,7 @@
     <input class="form-control" asp-for="PhoneNumber" />
     <span asp-validation-for="PhoneNumber"></span><br />
 
-    <input id="@buttonId" type="submit" value="Create" />
+    <input type="submit" value="Save" />
 </form>
 
 

@@ -45,8 +45,9 @@ namespace MVCAssignmentTwo.Controllers
 
         public IActionResult DeletePerson(int id)
         {
-            _peopleService.Remove(id);
-            return RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
+            if (_peopleService.Remove(id))
+                return Content(""); // RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
+            else return NotFound();
         }
 
 
@@ -99,6 +100,21 @@ namespace MVCAssignmentTwo.Controllers
             //Json(fromJSON);//
             person ??= _peopleService.FindBy(id) ?? new Person();
             return PartialView("_PersonPartialView", person);
+        }
+
+
+
+
+        [HttpPost]
+        public IActionResult CreatePerson2(string model)
+        {
+            Person person = null;
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var fromJSON = serializer.Deserialize<CreatePersonViewModel>(model);
+            if (fromJSON is CreatePersonViewModel)
+                person = _peopleService.Add(fromJSON as CreatePersonViewModel);
+
+            return PartialView("_PersonListPartialView", _peopleService.All().Persons);
         }
     }
 }

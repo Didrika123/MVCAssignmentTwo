@@ -40,7 +40,7 @@ function getFormData($form) {
     return indexed_array;
 }
 
-function SubmitEdit(event, htmlForm, entryId, targetId, actionLink) {
+function EditEntry(event, htmlForm, entryId, targetId, actionLink) {
     event.preventDefault();
 
     $.ajax({
@@ -59,4 +59,39 @@ function SubmitEdit(event, htmlForm, entryId, targetId, actionLink) {
         }
 
     })
+}
+
+function CreateEntry(event, htmlForm, targetId, actionLink) {
+    event.preventDefault();
+
+    $.ajax({
+        data: {
+            model: JSON.stringify(getFormData($(htmlForm)))
+            //model: JSON.stringify($('#editpersonform').serializeArray())
+            //JSON.stringify(person)},//{ model: JSON.stringify($('#editpersonform')) },
+        },
+        type: "POST",
+        url: actionLink, //htmlForm.attributes.href.value, //"/Register/EditPerson2", //Im a bit confuse, like isnt this opening up to overposting ?
+
+    }).done(function (output) {
+        $("#" + targetId).html(output);
+    }).fail(function () {
+        alert("CRITICAL EROOR: CREAT FFAILED");
+    });
+}
+
+function DeleteEntry(event, targetId, entryId, actionLink) {
+    event.preventDefault();
+    console.log(actionLink);
+    $.ajax({
+        url: actionLink,
+        data: { id: entryId }
+    }).done(function () {
+        //Delete Html
+        $("#" + targetId).html("");
+    }).fail(function () {
+        alert("CRITICAL EROOR: DELETION FAILED");
+    });
+
+
 }
