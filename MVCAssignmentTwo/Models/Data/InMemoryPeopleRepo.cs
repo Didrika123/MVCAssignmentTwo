@@ -26,7 +26,8 @@ namespace MVCAssignmentTwo.Models
                 City = city,
                 Id = _idCounter++
             };
-            _persons.Add(newPerson);
+            //_persons.Add(newPerson);
+            _persons.Insert(0, newPerson);
             return newPerson; //Maybe do some checkkkkkkkKKKKKK, but should it be necessary since we have viewmodel validation? Maybe a check for person alrdy exsists?
         }
 

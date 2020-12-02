@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,6 +27,11 @@ namespace MVCAssignmentTwo.Models
         public List<Person> Persons { get; set; }
 
         public bool IsThereMorePages { get; set; }
+
+        public string FilterString { get; set; }
+
+
+        [HiddenInput(DisplayValue = false)]
         public int PageNumber { get; set; }
         public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
     }

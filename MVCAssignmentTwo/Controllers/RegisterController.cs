@@ -20,121 +20,90 @@ namespace MVCAssignmentTwo.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult People()
         {
             return View(_peopleService.All(0));
         }
 
-        [HttpPost]
-        public IActionResult AddPerson(PeopleViewModel peopleViewModel)
+        public IActionResult GetPerson(int id)
         {
-            if (ModelState.IsValid)
+            Person person = _peopleService.FindBy(id);
+            if (person != null)
             {
-                _peopleService.Add(peopleViewModel.CreatePersonViewModel);
+                return PartialView("_PersonPartialView", person);
             }
-            return View("People", _peopleService.All());  //RedirectToAction(nameof(People)); // Set the same viewmodel instead of redirect so that error messages appear 
+            else return NotFound(); //404
         }
-
-        [HttpPost]
-        public IActionResult Search(PeopleViewModel peopleViewModel)
-        {
-            return RedirectToAction(nameof(PersonList)); ;// return PartialView("_PersonListPartialView", _peopleService.FindBy(peopleViewModel, 0));// View("People", _peopleService.FindBy(peopleViewModel));
-        }
-
-
         public IActionResult DeletePerson(int id)
         {
             if (_peopleService.Remove(id))
-                return Content(""); // RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
+                //return RedirectToAction(nameof(PersonList));  //return Content(""); // RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
+                return Content("");
             else return NotFound();
         }
 
+        [HttpGet]
+        public IActionResult EditPerson(int id)
+        {
+            Person person = _peopleService.FindBy(id);
+            if(person != null)
+            {
+                CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel(person);
+                return PartialView("_EditPersonPartialView", createPersonViewModel);
+            }
+            else return NotFound(); //404
+        }
 
-        //For assignment 3 below
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPerson(int id, CreatePersonViewModel createPersonViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Person person = _peopleService.Edit(id, createPersonViewModel);
+                if (person != null)
+                {
+                    //SUCCESFUL
+                    return PartialView("_PersonPartialView", person);
+                }
+            }
+            Response.StatusCode = 400;
+            return PartialView("_EditPersonPartialView", createPersonViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePerson(CreatePersonViewModel createPersonViewModel)
         {
             if (ModelState.IsValid)
             {
-                _peopleService.Add(createPersonViewModel);
+                Person person = _peopleService.Add(createPersonViewModel);
+                if (person != null)
+                {
+                    //SUCCESFUL
+                    return RedirectToAction(nameof(PersonList));
+                }
             }
-            return RedirectToAction(nameof(People));
+            Response.StatusCode = 400; 
+            return PartialView("_CreatePersonPartialView", createPersonViewModel);
         }
-
-        public IActionResult EditPerson(int id)
-        {
-            Person person = _peopleService.FindBy(id);
-            // CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel(person);
-            //return PartialView("_EditPersonPartialView", createPersonViewModel);
-
-            if (person == null)
-                return NotFound(); //404
-
-            return PartialView("_EditPersonPartialView", person);
-        }
-
-        [HttpPost]
-        public IActionResult EditPerson(int id, CreatePersonViewModel personViewModel)
-        {
-            Person person = null;
-            if (ModelState.IsValid)
-            {
-                _peopleService.Edit(id, personViewModel);
-            }
-            person ??= _peopleService.FindBy(id);
-            return PartialView("_PersonPartialView", person);
-        }
-
-
-
-        [HttpPost]
-        public IActionResult EditPerson2(int id, string model)
-        {
-            Person person = null;
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var fromJSON = serializer.Deserialize<CreatePersonViewModel>(model);
-            if(fromJSON is CreatePersonViewModel)
-                person = _peopleService.Edit(id, fromJSON as CreatePersonViewModel);
-            //Json(fromJSON);//
-            person ??= _peopleService.FindBy(id) ?? new Person();
-            return PartialView("_PersonPartialView", person);
-        }
-
-
-
-
-        [HttpPost]
-        public IActionResult CreatePerson2(string model)
-        {
-            Person person = null;
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var fromJSON = serializer.Deserialize<CreatePersonViewModel>(model);
-            if (fromJSON is CreatePersonViewModel)
-                person = _peopleService.Add(fromJSON as CreatePersonViewModel);
-            //Return  PartialView("_PersonListPartialView", _peopleService.All(id) + NEW PERSON);
-            return RedirectToAction(nameof(PersonList)); //MAybe RETURN PartialView("_PersonListPartialView", _peopleService.All(id));
-        }
-
-
 
         [HttpGet]
         public IActionResult PersonList(int id)
         {
             return PartialView("_PersonListPartialView", _peopleService.All(id));
         }
-        [HttpPost]
-        public IActionResult PersonList(int id, string model)
-        {
-            PeopleViewModel search = null;
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var fromJSON = serializer.Deserialize<PeopleViewModel>(model);
-            if (fromJSON is PeopleViewModel)
-                search = fromJSON as PeopleViewModel;
 
-            search ??= new PeopleViewModel();
-            return PartialView("_PersonListPartialView", _peopleService.FindBy(search, id));
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PersonList(PeopleViewModel search)
+        {
+           // if (ModelState.IsValid) //think it failes because CreatePersonViewModel is null (which have reqs in it), maybe dont have to be so harsh for a search ? or maybe should create a special viewmodel for search or maybe use the Route ids
+            {  
+                return PartialView("_PersonListPartialView", _peopleService.FindBy(search, search.PageNumber));
+            }
+            //return RedirectToAction(nameof(PersonList));
         }
     }
 }

@@ -1,35 +1,28 @@
 ﻿
-/*
- *  Usage
- * <a onclick="ReplaceTargetWithAspActionResult(event, this, 'IdOfHtmlElement');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@item.Id">Btn</a>
- * 
- */
 function ReplaceTargetWithAspActionResult(event, htmlElement, targetId) {  //By doing parameters like this, you can call this method by MethodName(this);  from html
     event.preventDefault();
-    let id = 1;
-    //const htmlElement = event.currentTarget;
+    let actionLink = (htmlElement.attributes.href ?? htmlElement.attributes.formaction).value;  //Attribute HREF is for ANCHORS, FORMACTION is for BUTTONS (Sidenote: wonder what attribute for input?)
+    
     $.get(
-        htmlElement.attributes.href.value, // + "/" + id,
-        function (result) {                                     //If successful this function will run
+        actionLink, 
+        function (result) {                   //If successful this function will run
             $('#' + targetId).html(result);   // Replace the innerhtml of target with result (which is the partialview returned by the controller)
             
             /* Side note
              * //document.getElementById(targetId).innerHTML = result; //When doing this instead of using Jquery the Create button doesnt work?
              * Why?
-             *
                 Setting the innerHTML property does not execute scripts.
                 jQuery contains special code to execute scripts for you.
-             * 
              */
         }
     ).fail(
         function (result) {
-            alert(result);
         }
     );
 }
 
-function getFormData($form) {
+// Nice method I found that formats the formdata into an object that can be interpreted as a view model   Ex result,  let formData = {Name: "Charles", Age: 5};
+function GetFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
 
@@ -40,92 +33,31 @@ function getFormData($form) {
     return indexed_array;
 }
 
-function EditEntry(event, htmlForm, entryId, targetId, actionLink) {
+
+function SubmitForm(event, htmlForm, targetId) {
     event.preventDefault();
-
-    $.ajax({
-        data: {
-            id: entryId,
-            model: JSON.stringify(getFormData($(htmlForm)))
-            //model: JSON.stringify($('#editpersonform').serializeArray())
-            //JSON.stringify(person)},//{ model: JSON.stringify($('#editpersonform')) },
-        },
-        type: "POST",
-        url: actionLink, //htmlForm.attributes.href.value, //"/Register/EditPerson2", //Im a bit confuse, like isnt this opening up to overposting ?
-
-        success: function (output) {
-            //code
+    if (typeof htmlForm === 'string' || htmlForm instanceof String)
+        htmlForm = $(htmlForm)[0]; //in case of passing an Id  for a form instead of the actual form
+    console.log(htmlForm.action);
+    $.post(htmlForm.action,
+        GetFormData($(htmlForm)),
+        function (output, status) {
+           // htmlForm.reset(); https://www.geeksforgeeks.org/how-to-reset-a-form-using-jquery-with-reset-method/
             $("#" + targetId).html(output);
-        }
-
-    })
-}
-
-function CreateEntry(event, htmlForm, targetId, actionLink) {
-    event.preventDefault();
-
-    $.ajax({
-        data: {
-            model: JSON.stringify(getFormData($(htmlForm)))
-            //model: JSON.stringify($('#editpersonform').serializeArray())
-            //JSON.stringify(person)},//{ model: JSON.stringify($('#editpersonform')) },
-        },
-        type: "POST",
-        url: actionLink, //htmlForm.attributes.href.value, //"/Register/EditPerson2", //Im a bit confuse, like isnt this opening up to overposting ?
-
-    }).done(function (output) {
-        $("#" + targetId).html(output);
-    }).fail(function () {
-        alert("CRITICAL EROOR: CREAT FFAILED");
-    });
-}
-
-function DeleteEntry(event, targetId, entryId, actionLink) {
-    event.preventDefault();
-    console.log(actionLink);
-    $.ajax({
-        url: actionLink,
-        data: { id: entryId }
-    }).done(function () {
-        //Delete Html
-        $("#" + targetId).html("");
-    }).fail(function () {
-        alert("CRITICAL EROOR: DELETION FAILED");
-    });
-
+        }).fail(function (output) {
+            let htmlResponse = $.parseHTML(output.responseText, document, true);
+            let theFormHtml = htmlResponse.find(n => n.id === htmlForm.id);
+            if(theFormHtml != null)
+                htmlForm.replaceWith(theFormHtml);
+        });
 
 }
 
-//REPLACE ALL THESE WITH TARGEt, MODEL, ETC? 
-
-
-function LoadEntries(event, pageId,  targetId, actionLink) {
-    event.preventDefault();
-    $.ajax({
-        url: actionLink,
-        data: { id: pageId }
-    }).done(function (output) {
-        $("#" + targetId).html(output);
-    }).fail(function () {
-        alert("CRITICAL EROOR: CODNT LODE NEXT PAGE");
-    });
-}
-
-
-
-function LoadEntriesSearch(event, htmlForm, pageId, targetId, actionLink) {
-    event.preventDefault();
-    console.log(actionLink);
-    $.ajax({
-        type: "POST",
-        url: actionLink,
-        data: {
-            id: pageId,
-            model: JSON.stringify(getFormData($(htmlForm)))
-        }
-    }).done(function (output) {
-        $("#" + targetId).html(output);
-    }).fail(function () {
-        alert("CRITICAL EROOR: CODNT LODE NEXT PAGE");
-    });
+function ToggleHtmlElement(targetId) {
+    var x = document.getElementById(targetId);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
 }

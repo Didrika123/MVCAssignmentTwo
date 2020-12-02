@@ -4,78 +4,82 @@
     ViewData["Title"] = "Peoples";
 }
 @*<div class="container">
-    <h1>Register of People</h1>
-    <form class="form-horizontal" method="post" asp-action="AddPerson" asp-controller="Register">
-        <label class="control-label" asp-for="@Model.CreatePersonViewModel.Name"></label>
-        <input class="form-control" asp-for="@Model.CreatePersonViewModel.Name" />
-        <span asp-validation-for="@Model.CreatePersonViewModel.Name"></span><br />
+        <h1>Register of People</h1>
+        <form class="form-horizontal" method="post" asp-action="AddPerson" asp-controller="Register">
+            <label class="control-label" asp-for="@Model.CreatePersonViewModel.Name"></label>
+            <input class="form-control" asp-for="@Model.CreatePersonViewModel.Name" />
+            <span asp-validation-for="@Model.CreatePersonViewModel.Name"></span><br />
 
-        <label class="control-label" asp-for="@Model.CreatePersonViewModel.City"></label>
-        <input class="form-control" asp-for="@Model.CreatePersonViewModel.City" />
-        <span asp-validation-for="@Model.CreatePersonViewModel.City"></span><br />
+            <label class="control-label" asp-for="@Model.CreatePersonViewModel.City"></label>
+            <input class="form-control" asp-for="@Model.CreatePersonViewModel.City" />
+            <span asp-validation-for="@Model.CreatePersonViewModel.City"></span><br />
 
-        <label class="control-label" asp-for="@Model.CreatePersonViewModel.PhoneNumber"></label>
-        <input class="form-control" asp-for="@Model.CreatePersonViewModel.PhoneNumber" />
-        <span asp-validation-for="@Model.CreatePersonViewModel.PhoneNumber"></span><br />
+            <label class="control-label" asp-for="@Model.CreatePersonViewModel.PhoneNumber"></label>
+            <input class="form-control" asp-for="@Model.CreatePersonViewModel.PhoneNumber" />
+            <span asp-validation-for="@Model.CreatePersonViewModel.PhoneNumber"></span><br />
 
-        <input type="submit" value="Create" />
-    </form>
-</div>
+            <input type="submit" value="Create" />
+        </form>
+    </div>
 
-<br />
-<br />
-
-<div class="container">
-    <form method="post" asp-action="Search" asp-controller="Register">
-        <label asp-for="@Model.SearchQuery"></label>
-        <input asp-for="@Model.SearchQuery" placeholder="Enter name or city" />
-        <span asp-validation-for="@Model.SearchQuery"></span>
-
-        <label style="margin-left: 1em;" asp-for="@Model.CaseSensitive"></label>
-        <input type="checkbox" asp-for="@Model.CaseSensitive" />
-        <span asp-validation-for="@Model.CaseSensitive"></span>
-
-        <label style="margin-left: 1em;" asp-for="@Model.Sort"></label>
-        <select asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
-        <span asp-validation-for="@Model.Sort"></span>
-
-        <input style="margin-left: 1em;" type="submit" value="Find" />
-    </form>
     <br />
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>City</th>
-                <th>Phone Number</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Persons)
-            {
+    <br />
+
+    <div class="container">
+        <form method="post" asp-action="Search" asp-controller="Register">
+            <label asp-for="@Model.SearchQuery"></label>
+            <input asp-for="@Model.SearchQuery" placeholder="Enter name or city" />
+            <span asp-validation-for="@Model.SearchQuery"></span>
+
+            <label style="margin-left: 1em;" asp-for="@Model.CaseSensitive"></label>
+            <input type="checkbox" asp-for="@Model.CaseSensitive" />
+            <span asp-validation-for="@Model.CaseSensitive"></span>
+
+            <label style="margin-left: 1em;" asp-for="@Model.Sort"></label>
+            <select asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
+            <span asp-validation-for="@Model.Sort"></span>
+
+            <input style="margin-left: 1em;" type="submit" value="Find" />
+        </form>
+        <br />
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.City</td>
-                    <td>@item.PhoneNumber</td>
-                    <td>@Html.ActionLink("X", "DeletePerson", "Register", new { id = item.Id }) </td>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Phone Number</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>*@
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Persons)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.City</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@Html.ActionLink("X", "DeletePerson", "Register", new { id = item.Id }) </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>*@
 
 
 
 @* For assingment 3 below *@
 
 <div class="container">
-    @*@Html.Partial("_CreatePersonPartialView", Model.CreatePersonViewModel)*@
-    <partial name="_CreatePersonPartialView" model="Model.CreatePersonViewModel" />
+    <button onclick="ToggleHtmlElement('create-person-form-container');">Add New Person</button>
+    <div style="display: none;" id="create-person-form-container">
+        <partial name="_CreatePersonPartialView" model="Model.CreatePersonViewModel" />
+    </div>
+
     <partial name="_SearchPeoplePartialView" model="Model" />
+
     <div id="personlist">
         <partial name="_PersonListPartialView" model="Model" />
     </div>
 </div>
 
-<script src="~/js/registerUtilities.js" asp-append-version="true">//apend verison prevents cachhing by browser because asp will rename the file if altered.</script>
+<script src="~/js/registerUtilities.js" asp-append-version="true">//asp-apend-verison sidesteps unwanted file-caching by browser because it will rename the file if altered.</script>

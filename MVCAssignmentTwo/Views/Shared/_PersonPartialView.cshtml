@@ -15,19 +15,9 @@
     </div>
     <div class="col-sm-2">
         <p>
-            <a onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id">Edit</a>
+            <button onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id">Edit</button>
             <partial name="_DeletePersonPartialView" model="Model.Id" />
         </p>
     </div>
 </div>
 
-@* Move the actions out of person partial *@
-@*<script>
-    $("#@buttonId").click(function (e) {
-        e.preventDefault();
-        var _this = $(this);
-        $.get(_this.attr("href"), function (res) {
-            $('#' + _this.data("target")).html(res);
-        });
-    });
-</script>*@

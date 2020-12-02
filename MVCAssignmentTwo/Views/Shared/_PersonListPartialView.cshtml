@@ -18,27 +18,29 @@
     @foreach (var item in Model.Persons)
     {
         string targetId = "persondiv" + item.Id;
-        string buttonId = "personEditBtn" + item.Id;
         <div id="@targetId">
             @* Maybe can target the actual <partial> instead of an extra div? *@
             <partial name="_PersonPartialView" model="item" />
         </div>
     }
+    <p>@Model.FilterString</p>
+
     @if (Model.PageNumber > 0)
     {
-        <button onclick="LoadEntriesSearch(event, '#peoplesearchform', @(Model.PageNumber - 1), 'personlist', '/Register/PersonList/');">Prev</button>
+        <button onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) - 1; SubmitForm(event, '#peoplesearchform', 'personlist');">&lt; Prev</button>
     }
     else
     {
-        <button style="color: gray;">Prev</button>
+        <button style="color: gray;">&lt; Prev</button>
     }
 
     @if (Model.IsThereMorePages)
     {
-        <button onclick="LoadEntriesSearch(event, '#peoplesearchform', @(Model.PageNumber + 1), 'personlist', '/Register/PersonList/');">Next</button>
+        //  <button onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist');" asp-controller="Register" asp-action="PersonList" asp-route-id="1">Next</button>
+        <button onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) + 1; SubmitForm(event, '#peoplesearchform', 'personlist');">Next &gt;</button>
     }
     else
     {
-        <button style="color: gray;">Next</button>
+        <button style="color: gray;">Next &gt;</button>
     }
 </div>

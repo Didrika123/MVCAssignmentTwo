@@ -23,7 +23,7 @@ namespace MVCAssignmentTwo.Models
         }
 
 
-        public Person Edit(int id, CreatePersonViewModel person)//What to use id for? Should Person maybe be sort of lacking ID
+        public Person Edit(int id, CreatePersonViewModel person)
         {
             Person editPerson = new Person(id, person.Name, person.PhoneNumber, person.City);
             return _peopleRepo.Update(editPerson);
@@ -62,8 +62,15 @@ namespace MVCAssignmentTwo.Models
 
         private PeopleViewModel Reduce(PeopleViewModel peopleViewModel, int pageNr)
         {
+            int count = 4; //Nr of entries per page
+            int maxPage = (peopleViewModel.Persons.Count-1) / count;
+            if (pageNr > maxPage)
+                pageNr = maxPage;
+
+            if (pageNr < 0)
+                pageNr = 0;
+
             peopleViewModel.PageNumber = pageNr;
-            int count = 2; //Nr of entries per page
             int index = pageNr * count;
             if (index + count >= peopleViewModel.Persons.Count)
             {
@@ -76,7 +83,11 @@ namespace MVCAssignmentTwo.Models
                 return null;
             if (count < 0 && count > peopleViewModel.Persons.Count)
                 return null;
+
+            peopleViewModel.FilterString = $"Filtered Result: Showing {peopleViewModel.Persons.Count} out of ({_peopleRepo.Read().Count})";
+
             peopleViewModel.Persons = peopleViewModel.Persons.GetRange(index, count);
+
             return peopleViewModel;
         }
 
