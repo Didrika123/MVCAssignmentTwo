@@ -62,7 +62,7 @@ namespace MVCAssignmentTwo.Models
 
         private PeopleViewModel Reduce(PeopleViewModel peopleViewModel, int pageNr)
         {
-            int count = 4; //Nr of entries per page
+            int count = peopleViewModel.NumEntriesPerPage; 
             int maxPage = (peopleViewModel.Persons.Count-1) / count;
             if (pageNr > maxPage)
                 pageNr = maxPage;
@@ -84,9 +84,14 @@ namespace MVCAssignmentTwo.Models
             if (count < 0 && count > peopleViewModel.Persons.Count)
                 return null;
 
-            peopleViewModel.FilterString = $"Filtered Result: Showing {peopleViewModel.Persons.Count} out of ({_peopleRepo.Read().Count})";
+            if (peopleViewModel.Persons.Count > 0)
+            {
+                peopleViewModel.FilterString = maxPage == 0 ? "" : $"Page {pageNr + 1} of {maxPage + 1}. ";
+                peopleViewModel.FilterString +=  peopleViewModel.Persons.Count < _peopleRepo.Read().Count ? $"Filtered result: {peopleViewModel.Persons.Count} items (of {_peopleRepo.Read().Count})" : "";
 
-            peopleViewModel.Persons = peopleViewModel.Persons.GetRange(index, count);
+                peopleViewModel.Persons = peopleViewModel.Persons.GetRange(index, count);
+            }
+            else peopleViewModel.FilterString = "No people found.";
 
             return peopleViewModel;
         }

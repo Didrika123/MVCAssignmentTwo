@@ -1,46 +1,51 @@
 ﻿@model PeopleViewModel
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-2">
-            <h3>Name</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>City</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>Phone Number</h3>
-        </div>
-        <div class="col-sm-2">
-            <h3>Action</h3>
-        </div>
+<div class="row">
+    <div class="col-sm-4">
+        <h3>Name</h3>
     </div>
-    @foreach (var item in Model.Persons)
+    <div class="col-sm-3">
+        <h3>City</h3>
+    </div>
+    <div class="col-sm-3">
+        <h3>Phone Number</h3>
+    </div>
+    <div class="col-sm-2">
+        <h3>Action</h3>
+    </div>
+</div>
+@{ 
+    int i = 0;
+}
+@foreach (var item in Model.Persons)
+{
+    string stripeClass = i++ % 2 == 0 ? "stripe-on" : "stripe-off";
+    string targetId = "persondiv" + item.Id;
+    <div id="@targetId" class="@stripeClass">
+        <partial name="_PersonPartialView" model="item" />
+    </div>
+}
+<div class="page-nav-group" >
+    <p class="text text-info">@Model.FilterString</p>
+    @if (Model.PageNumber != 0 || Model.IsThereMorePages)
     {
-        string targetId = "persondiv" + item.Id;
-        <div id="@targetId">
-            @* Maybe can target the actual <partial> instead of an extra div? *@
-            <partial name="_PersonPartialView" model="item" />
-        </div>
-    }
-    <p>@Model.FilterString</p>
+        @if (Model.PageNumber > 0)
+        {
+            <button class="btn btn-primary" onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) - 1; SubmitForm(event, '#peoplesearchform', 'personlist');">&lt; Prev</button>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled">&lt; Prev</button>
+        }
 
-    @if (Model.PageNumber > 0)
-    {
-        <button onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) - 1; SubmitForm(event, '#peoplesearchform', 'personlist');">&lt; Prev</button>
-    }
-    else
-    {
-        <button style="color: gray;">&lt; Prev</button>
+        @if (Model.IsThereMorePages)
+        {
+            <button class="btn btn-primary" onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) + 1; SubmitForm(event, '#peoplesearchform', 'personlist');">Next &gt;</button>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled">Next &gt;</button>
+        }
     }
 
-    @if (Model.IsThereMorePages)
-    {
-        //  <button onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist');" asp-controller="Register" asp-action="PersonList" asp-route-id="1">Next</button>
-        <button onclick="peoplesearchform.PageNumber.value = Number(peoplesearchform.PageNumber.value) + 1; SubmitForm(event, '#peoplesearchform', 'personlist');">Next &gt;</button>
-    }
-    else
-    {
-        <button style="color: gray;">Next &gt;</button>
-    }
 </div>

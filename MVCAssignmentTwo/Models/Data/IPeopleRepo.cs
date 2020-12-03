@@ -7,7 +7,7 @@ namespace MVCAssignmentTwo.Models
 {
     interface IPeopleRepo
     {
-        Person Create(string name, string phoneNumber, string city);//“parameters needed to create Person excluding id”
+        Person Create(string name, string phoneNumber, string city);
         List<Person> Read();
         Person Read(int id);
         Person Update(Person person);

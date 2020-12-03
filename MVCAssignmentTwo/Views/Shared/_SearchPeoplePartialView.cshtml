@@ -1,25 +1,31 @@
 ﻿@model PeopleViewModel
 
-@*<form id="peoplesearchform" onsubmit="LoadEntriesSearch(event, this, @Model.PageNumber, 'personlist', '/Register/PersonList');" method="post">*@
-<form id="peoplesearchform" onsubmit="this.PageNumber.value = 0; SubmitForm(event, this, 'personlist');" method="post" asp-controller="Register" asp-action="PersonList">
-    <label asp-for="@Model.SearchQuery"></label>
-    <input asp-for="@Model.SearchQuery" placeholder="Enter name or city" />
-    <span asp-validation-for="@Model.SearchQuery"></span>
+<form class="form-inline" id="peoplesearchform" onsubmit="this.PageNumber.value = 0; SubmitForm(event, this, 'personlist');" method="post" asp-controller="Register" asp-action="PersonList">
 
-    <label style="margin-left: 1em;" asp-for="@Model.CaseSensitive"></label>
-    <input type="checkbox" asp-for="@Model.CaseSensitive" />
+    <label asp-for="@Model.SearchQuery"></label>
+    <input class="form-control" asp-for="@Model.SearchQuery" placeholder="Enter name or city" />
+    <span class="text text-danger" asp-validation-for="@Model.SearchQuery"></span>
+
+    <input style="margin-left: 0.5em;" type="checkbox" asp-for="@Model.CaseSensitive" />
+    <label asp-for="@Model.CaseSensitive"></label>
     <span asp-validation-for="@Model.CaseSensitive"></span>
 
     <label style="margin-left: 1em;" asp-for="@Model.Sort"></label>
-    <select asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
+    <select class="form-control" asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
     <span asp-validation-for="@Model.Sort"></span>
+
+
+    <label style="margin-left: 1em;" asp-for="@Model.NumEntriesPerPage"></label>
+    <select class="form-control" asp-for="NumEntriesPerPage" asp-items="new SelectList( new int [] { 1, 2, 5, 10, 20 }, Model.NumEntriesPerPage)"></select>
+    <span asp-validation-for="@Model.NumEntriesPerPage"></span>
+
 
     <input asp-for="PageNumber" />
     <span asp-validation-for="@Model.PageNumber"></span>
 
 
-    <input style="margin-left: 1em;" type="submit" value="Find" />
-    <button onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist'); peoplesearchform.reset();" asp-controller="Register" asp-action="PersonList" asp-route-id="0">Clear</button>
-
+    <input class="btn btn-primary" style="margin-left: 1em;" type="submit" value="Filter" />
+    <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist'); peoplesearchform.reset();" asp-controller="Register" asp-action="PersonList" asp-route-id="0">Clear</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 </form>

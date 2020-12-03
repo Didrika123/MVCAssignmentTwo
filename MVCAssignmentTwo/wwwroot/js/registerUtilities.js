@@ -1,22 +1,12 @@
 ﻿
-function ReplaceTargetWithAspActionResult(event, htmlElement, targetId) {  //By doing parameters like this, you can call this method by MethodName(this);  from html
+function ReplaceTargetWithAspActionResult(event, htmlElement, targetId) { 
     event.preventDefault();
     let actionLink = (htmlElement.attributes.href ?? htmlElement.attributes.formaction).value;  //Attribute HREF is for ANCHORS, FORMACTION is for BUTTONS (Sidenote: wonder what attribute for input?)
     
     $.get(
         actionLink, 
-        function (result) {                   //If successful this function will run
-            $('#' + targetId).html(result);   // Replace the innerhtml of target with result (which is the partialview returned by the controller)
-            
-            /* Side note
-             * //document.getElementById(targetId).innerHTML = result; //When doing this instead of using Jquery the Create button doesnt work?
-             * Why?
-                Setting the innerHTML property does not execute scripts.
-                jQuery contains special code to execute scripts for you.
-             */
-        }
-    ).fail(
-        function (result) {
+        function (result) {    
+            $('#' + targetId).html(result);  
         }
     );
 }
@@ -25,24 +15,25 @@ function ReplaceTargetWithAspActionResult(event, htmlElement, targetId) {  //By 
 function GetFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
-
     $.map(unindexed_array, function (n, i) {
-        indexed_array[n['name']] = n['value'];
+        if (indexed_array[n['name']] === undefined) // A little fix for checkboxes, (Asp-for? adds an extra hidden checkbox at the end of form for some reason with always false value)
+            indexed_array[n['name']] = n['value'];
     });
 
     return indexed_array;
 }
 
 
-function SubmitForm(event, htmlForm, targetId) {
+function SubmitForm(event, htmlForm, targetId, resetForm = false) {
     event.preventDefault();
     if (typeof htmlForm === 'string' || htmlForm instanceof String)
         htmlForm = $(htmlForm)[0]; //in case of passing an Id  for a form instead of the actual form
-    console.log(htmlForm.action);
+
     $.post(htmlForm.action,
         GetFormData($(htmlForm)),
         function (output, status) {
-           // htmlForm.reset(); https://www.geeksforgeeks.org/how-to-reset-a-form-using-jquery-with-reset-method/
+            if (resetForm)
+                ResetForm(htmlForm);
             $("#" + targetId).html(output);
         }).fail(function (output) {
             let htmlResponse = $.parseHTML(output.responseText, document, true);
@@ -51,6 +42,12 @@ function SubmitForm(event, htmlForm, targetId) {
                 htmlForm.replaceWith(theFormHtml);
         });
 
+}
+
+function ResetForm(htmlForm) {
+    for (let i = 0; i < htmlForm.length; i++)
+        if(htmlForm[i].type == "text")
+            htmlForm[i].value = "";
 }
 
 function ToggleHtmlElement(targetId) {

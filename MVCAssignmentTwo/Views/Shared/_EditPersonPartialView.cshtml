@@ -7,16 +7,16 @@
 <form onsubmit="SubmitForm(event, this, '@targetId');" class="form-horizontal" method="post" asp-action="EditPerson" asp-controller="Register" asp-route-id="@routeId">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
-    <span asp-validation-for="Name"></span><br />
+    <span  class="text text-danger" asp-validation-for="Name"></span><br />
 
     <label class="control-label" asp-for="City"></label>
     <input class="form-control" asp-for="City" />
-    <span asp-validation-for="City"></span><br />
+    <span class="text text-danger" asp-validation-for="City"></span><br />
 
     <label class="control-label" asp-for="PhoneNumber"></label>
     <input class="form-control" asp-for="PhoneNumber" />
-    <span asp-validation-for="PhoneNumber"></span><br />
+    <span class="text text-danger" asp-validation-for="PhoneNumber"></span><br />
 
-    <input type="submit" value="Save" />
-    <button onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="GetPerson" asp-route-id="@routeId">Cancel</button>
+    <input  class="btn btn-success" type="submit" value="Save" />
+    <button  class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="GetPerson" asp-route-id="@routeId">Cancel</button>
 </form>

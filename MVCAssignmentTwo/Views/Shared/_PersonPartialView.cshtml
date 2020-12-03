@@ -3,21 +3,21 @@
 @{
     string targetId = "persondiv" + Model.Id;
 }
-<div class="row">
-    <div class="col-sm-2">
-        <p>@Model.Name</p>
+<div class="row  vertical-center-text-in-div">
+    <div class="col-sm-4">
+        <span class="text">@Model.Name</span>
+    </div>
+    <div class="col-sm-3">
+        <span>@Model.City</span>
+    </div>
+    <div class="col-sm-3">
+        <span>@Model.PhoneNumber</span>
     </div>
     <div class="col-sm-2">
-        <p>@Model.City</p>
-    </div>
-    <div class="col-sm-2">
-        <p>@Model.PhoneNumber</p>
-    </div>
-    <div class="col-sm-2">
-        <p>
-            <button onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id">Edit</button>
+        <span class="p-2">
+            <button class="btn btn-success" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="EditPerson" asp-route-id="@Model.Id">Edit</button>
             <partial name="_DeletePersonPartialView" model="Model.Id" />
-        </p>
+        </span>
     </div>
 </div>
 

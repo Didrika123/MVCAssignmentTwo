@@ -4,19 +4,5 @@
 @{
     string targetId = "persondiv" + Model;
 }
-<script> //asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model" </script>
 
-@*<button onclick="DeleteEntry(event, '@targetId', @Model, '@Url.ActionLink("DeletePerson", "Register")');">X</button>*@
-
-
-@*<button onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>*@
-
-@*<button onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist');" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>*@
-
-
-<button onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId'); SubmitForm(event, '#peoplesearchform', 'personlist');" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>
-
-
-@* I was thinking that deleting person should return the updated list but now there 2 calls, first delete, then call an update on list.
-    But that slight delay between hiding the recently deleted and showing the next item actually looks good
-    But the tradeoff is one extra call to backend which is bad (So probably couldve gotten everything done in 1 call then done that slight delay with javascript instead).*@
+<button class="btn btn-danger" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId'); SubmitForm(event, '#peoplesearchform', 'personlist');" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>

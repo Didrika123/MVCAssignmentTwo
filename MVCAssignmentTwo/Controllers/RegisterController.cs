@@ -11,9 +11,6 @@ namespace MVCAssignmentTwo.Controllers
     [Route("{controller=Register}/{action=People}/{id?}")]
     public class RegisterController : Controller
     {
-        // Your Controller shall use the PeopleService class to handel the interaction of the people data
-        // The table should be displayed using an HTML table generated with C# loop
-        // The table data should come from a view model, which should have a list of people, and the search phrase if one exists
         readonly IPeopleService _peopleService = new PeopleService();
         public IActionResult Index()
         {
@@ -37,8 +34,7 @@ namespace MVCAssignmentTwo.Controllers
         public IActionResult DeletePerson(int id)
         {
             if (_peopleService.Remove(id))
-                //return RedirectToAction(nameof(PersonList));  //return Content(""); // RedirectToAction(nameof(People)); //Return a partial view clearing the person div?
-                return Content("");
+                return Ok();
             else return NotFound();
         }
 
@@ -88,7 +84,7 @@ namespace MVCAssignmentTwo.Controllers
             Response.StatusCode = 400; 
             return PartialView("_CreatePersonPartialView", createPersonViewModel);
         }
-
+        
         [HttpGet]
         public IActionResult PersonList(int id)
         {
@@ -99,11 +95,12 @@ namespace MVCAssignmentTwo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PersonList(PeopleViewModel search)
         {
-           // if (ModelState.IsValid) //think it failes because CreatePersonViewModel is null (which have reqs in it), maybe dont have to be so harsh for a search ? or maybe should create a special viewmodel for search or maybe use the Route ids
+            //ModelState.Remove("CreatePersonViewModel.Name"); // Since not used for search, Clear the createperson required so that the modelstate can check if valid
+            if (ModelState.IsValid)
             {  
                 return PartialView("_PersonListPartialView", _peopleService.FindBy(search, search.PageNumber));
             }
-            //return RedirectToAction(nameof(PersonList));
+            return RedirectToAction(nameof(PersonList));
         }
     }
 }

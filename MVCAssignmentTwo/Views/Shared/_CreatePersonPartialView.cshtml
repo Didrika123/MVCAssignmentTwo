@@ -1,18 +1,18 @@
 ﻿@model CreatePersonViewModel
 
 
-<form id="create-person-form" onsubmit="SubmitForm(event, this, 'personlist');" class="form-horizontal" method="post" asp-controller="Register" asp-action="CreatePerson">
+<form id="create-person-form" onsubmit="SubmitForm(event, this, 'personlist', true);" class="form-horizontal" method="post" asp-controller="Register" asp-action="CreatePerson">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
-    <span asp-validation-for="Name"></span><br />
+    <span class="text text-danger" asp-validation-for="Name"></span><br />
 
     <label class="control-label" asp-for="City"></label>
     <input class="form-control" asp-for="City" />
-    <span asp-validation-for="City"></span><br />
+    <span class="text text-danger" asp-validation-for="City"></span><br />
 
     <label class="control-label" asp-for="PhoneNumber"></label>
     <input class="form-control" asp-for="PhoneNumber" />
-    <span asp-validation-for="PhoneNumber"></span><br />
+    <span class="text text-danger" asp-validation-for="PhoneNumber"></span><br />
 
-    <input type="submit" value="Create" />
+    <input class="btn btn-success" type="submit" value="Create" />
 </form>

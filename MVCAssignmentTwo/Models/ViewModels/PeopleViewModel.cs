@@ -7,22 +7,21 @@ using System.Threading.Tasks;
 
 namespace MVCAssignmentTwo.Models
 {
-    //container for the information you need in yourpeopleview
-
     public class PeopleViewModel
     {
-        public enum SortMode //Maybe as enums?
+        public enum SortMode 
         {
-            [Display(Name = "Standard")] None,
+            [Display(Name = "Relevance")] None,
             [Display(Name = "Name ▲")] NameAscending,
             [Display(Name = "Name ▼")] NameDescending,
             [Display(Name = "City ▲")] CityAscending,
             [Display(Name = "City ▼")] CityDescending
         }
+        [Display(Name = "Order by:")]
         public  SortMode Sort{ get; set; }
         [Display(Name = "Case Sensitive")]
         public bool CaseSensitive { get; set; }
-        [Display(Name = "Search")]
+        [Display(Name = "Search:")]
         public string SearchQuery { get; set; }
         public List<Person> Persons { get; set; }
 
@@ -33,6 +32,10 @@ namespace MVCAssignmentTwo.Models
 
         [HiddenInput(DisplayValue = false)]
         public int PageNumber { get; set; }
-        public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
+
+        [Display(Name = "Items:")]
+        [Range(1, 20)]
+        public int NumEntriesPerPage { get; set; } = 5;
+        //public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
     }
 }

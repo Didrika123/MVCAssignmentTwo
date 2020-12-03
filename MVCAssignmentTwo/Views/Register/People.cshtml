@@ -69,17 +69,21 @@
 
 @* For assingment 3 below *@
 
-<div class="container">
-    <button onclick="ToggleHtmlElement('create-person-form-container');">Add New Person</button>
+<div id="all" class="container">
+    <h1>People Register</h1>
+    <hr />
+    <button class="btn btn-success" onclick="ToggleHtmlElement('create-person-form-container'); this.classList.toggle('btn-warning');">Add New Person</button>
+    <button class="btn btn-danger" onclick="$('#all').html('');">Delete all</button>
     <div style="display: none;" id="create-person-form-container">
-        <partial name="_CreatePersonPartialView" model="Model.CreatePersonViewModel" />
+        <partial name="_CreatePersonPartialView" model="new CreatePersonViewModel()" />
     </div>
-
+    <hr />
     <partial name="_SearchPeoplePartialView" model="Model" />
-
+    <hr />
     <div id="personlist">
         <partial name="_PersonListPartialView" model="Model" />
     </div>
-</div>
 
+</div>
+  
 <script src="~/js/registerUtilities.js" asp-append-version="true">//asp-apend-verison sidesteps unwanted file-caching by browser because it will rename the file if altered.</script>
