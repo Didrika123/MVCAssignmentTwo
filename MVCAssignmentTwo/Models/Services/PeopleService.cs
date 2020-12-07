@@ -7,7 +7,11 @@ namespace MVCAssignmentTwo.Models
 {
     public class PeopleService : IPeopleService
     {
-        readonly IPeopleRepo _peopleRepo = new InMemoryPeopleRepo();
+        readonly IPeopleRepo _peopleRepo;
+        public PeopleService(IPeopleRepo peopleRepo)
+        {
+            _peopleRepo = peopleRepo;
+        }
         public Person Add(CreatePersonViewModel person)
         {
             return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City);

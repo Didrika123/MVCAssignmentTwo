@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MVCAssignmentTwo.Models
 {
-    interface IPeopleService
+    public interface IPeopleService
     {
         Person Add(CreatePersonViewModel person);
 

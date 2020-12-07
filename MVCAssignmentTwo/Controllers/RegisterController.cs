@@ -11,7 +11,12 @@ namespace MVCAssignmentTwo.Controllers
     [Route("{controller=Register}/{action=People}/{id?}")]
     public class RegisterController : Controller
     {
-        readonly IPeopleService _peopleService = new PeopleService();
+        readonly IPeopleService _peopleService;
+        public RegisterController(IPeopleService peopleService)
+        {
+            _peopleService = peopleService;
+        }
+
         public IActionResult Index()
         {
             return View();

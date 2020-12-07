@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCAssignmentTwo.Models;
 
 namespace MVCAssignmentTwo
 {
@@ -16,6 +17,14 @@ namespace MVCAssignmentTwo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            /*
+             * There are different types of injection 
+             * - Transient: Recreated each time requested from the Service
+             * - Scoped:    Created one per client connection
+             * - Singleton: Lifetime of the program
+            */
+            services.AddSingleton<IPeopleRepo, InMemoryPeopleRepo>();
+            services.AddSingleton<IPeopleService, PeopleService>();
             services.AddMvc().AddRazorRuntimeCompilation();
         }
 

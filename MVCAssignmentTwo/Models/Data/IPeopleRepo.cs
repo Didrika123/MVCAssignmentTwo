@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MVCAssignmentTwo.Models
 {
-    interface IPeopleRepo
+    public interface IPeopleRepo
     {
         Person Create(string name, string phoneNumber, string city);
         List<Person> Read();
