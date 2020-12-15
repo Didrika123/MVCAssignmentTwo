@@ -11,12 +11,12 @@
     <span asp-validation-for="@Model.CaseSensitive"></span>
 
     <label style="margin-left: 1em;" asp-for="@Model.Sort"></label>
-    <select class="form-control" asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
+    <select onchange="document.getElementById('filter-btn').click();" class="form-control" asp-for="Sort" asp-items="Html.GetEnumSelectList<PeopleViewModel.SortMode>()"></select>
     <span asp-validation-for="@Model.Sort"></span>
 
 
     <label style="margin-left: 1em;" asp-for="@Model.NumEntriesPerPage"></label>
-    <select class="form-control" asp-for="NumEntriesPerPage" asp-items="new SelectList( new int [] { 1, 2, 5, 10, 20 }, Model.NumEntriesPerPage)"></select>
+    <select onchange="document.getElementById('filter-btn').click();" class="form-control" asp-for="NumEntriesPerPage" asp-items="new SelectList( new int [] { 1, 2, 5, 10, 20 }, Model.NumEntriesPerPage)"></select>
     <span asp-validation-for="@Model.NumEntriesPerPage"></span>
 
 
@@ -24,7 +24,7 @@
     <span asp-validation-for="@Model.PageNumber"></span>
 
 
-    <input class="btn btn-primary" style="margin-left: 1em;" type="submit" value="Filter" />
+    <input id="filter-btn" class="btn btn-primary" style="margin-left: 1em;" type="submit" value="Filter" />
     <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist'); peoplesearchform.reset();" asp-controller="Register" asp-action="PersonList" asp-route-id="0">Clear</button>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

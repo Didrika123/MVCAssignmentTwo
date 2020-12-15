@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVCAssignmentTwo.Models;
+using MVCAssignmentTwo.Models.Data;
 
 namespace MVCAssignmentTwo
 {
@@ -15,6 +18,9 @@ namespace MVCAssignmentTwo
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
+        private readonly IConfiguration Configuration;  //Configuration strings you find in Appsettings.json
+        public Startup(IConfiguration config) { Configuration = config; }
         public void ConfigureServices(IServiceCollection services)
         {
             /*
@@ -23,8 +29,12 @@ namespace MVCAssignmentTwo
              * - Scoped:    Created one per client connection
              * - Singleton: Lifetime of the program
             */
-            services.AddSingleton<IPeopleRepo, InMemoryPeopleRepo>();
-            services.AddSingleton<IPeopleService, PeopleService>();
+
+            //services.AddSingleton<IPeopleRepo, InMemoryPeopleRepo>();
+            services.AddDbContext<RegisterDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
+
+            services.AddScoped<IPeopleService, PeopleService>();
             services.AddMvc().AddRazorRuntimeCompilation();
         }
 
