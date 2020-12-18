@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCAssignmentTwo.Models.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +9,18 @@ namespace MVCAssignmentTwo.Models
     public class PeopleService : IPeopleService
     {
         readonly IPeopleRepo _peopleRepo;
-        public PeopleService(IPeopleRepo peopleRepo)
+        readonly ICitiesService _citiesService;
+        public PeopleService(IPeopleRepo peopleRepo, ICitiesService citiesService)
         {
             _peopleRepo = peopleRepo;
+            _citiesService = citiesService;
         }
         public Person Add(CreatePersonViewModel person)
         {
+            person.City = _citiesService.FindBy(person.City.Id);
+            if (person.City == null)
+                return null;
+
             return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City);
         }
 
@@ -23,14 +30,22 @@ namespace MVCAssignmentTwo.Models
         }
         public PeopleViewModel All(int pageNr)
         {
-            return Reduce(new PeopleViewModel() { Persons = _peopleRepo.Read() }, pageNr) ;
+            return Reduce(new PeopleViewModel() { Persons = _peopleRepo.Read() }, pageNr);
         }
 
 
         public Person Edit(int id, CreatePersonViewModel person)
         {
+            person.City = _citiesService.LazyFindBy(person.City.Id);
+            if (person.City == null)
+                return null;
+
             Person editPerson = new Person(id, person.Name, person.PhoneNumber, person.City);
             return _peopleRepo.Update(editPerson);
+        }
+        public Person Edit(Person person)
+        {
+            return _peopleRepo.Update(person);
         }
 
         public PeopleViewModel FindBy(PeopleViewModel search)
@@ -39,9 +54,9 @@ namespace MVCAssignmentTwo.Models
             string query = search.SearchQuery ?? "";
 
             if (search.CaseSensitive)
-                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.Contains(query) || n.City.Contains(query));
+                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.Contains(query) || n.City.Name.Contains(query));
             else
-                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.ToLower().Contains(query.ToLower()) || n.City.ToLower().Contains(query.ToLower()));
+                search.Persons = _peopleRepo.Read().FindAll(n => n.Name.ToLower().Contains(query.ToLower()) || n.City.Name.ToLower().Contains(query.ToLower()));
 
 
             //Sorting
@@ -52,9 +67,9 @@ namespace MVCAssignmentTwo.Models
             else if (search.Sort == PeopleViewModel.SortMode.NameDescending)
                 search.Persons.Sort((a, b) => b.Name.CompareTo(a.Name));
             else if (search.Sort == PeopleViewModel.SortMode.CityAscending)
-                search.Persons.Sort((a, b) => a.City.CompareTo(b.City));
+                search.Persons.Sort((a, b) => a.City.Name.CompareTo(b.City.Name));
             else if (search.Sort == PeopleViewModel.SortMode.CityDescending)
-                search.Persons.Sort((a, b) => b.City.CompareTo(a.City));
+                search.Persons.Sort((a, b) => b.City.Name.CompareTo(a.City.Name));
 
 
             return search;

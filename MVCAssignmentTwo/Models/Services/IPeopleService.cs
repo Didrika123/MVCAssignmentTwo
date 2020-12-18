@@ -15,6 +15,7 @@ namespace MVCAssignmentTwo.Models
         PeopleViewModel FindBy(PeopleViewModel search, int page);
         Person FindBy(int id);
         Person Edit(int id, CreatePersonViewModel person);
+        Person Edit(Person person); //Had to add this because Hook thingy (the entity tracking by EF) didnt like the other won.
         bool Remove(int id);
     }
 }

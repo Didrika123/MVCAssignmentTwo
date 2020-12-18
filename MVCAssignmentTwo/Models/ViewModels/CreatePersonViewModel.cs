@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCAssignmentTwo.Models.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,9 +18,12 @@ namespace MVCAssignmentTwo.Models
         [StringLength(20, MinimumLength = 6)]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "City")]
-        [StringLength(40, MinimumLength = 3)]
-        public string City { get; set; }
+        //  [Display(Name = "City")]
+        // [StringLength(40, MinimumLength = 3)]
+        [Required]
+        public City City { get; set; } = new City() { Country = new Country()};
+
+        public List<City> Cities { get; set; }
 
         public CreatePersonViewModel()
         {
@@ -31,7 +35,7 @@ namespace MVCAssignmentTwo.Models
             {
                 Name = person.Name;
                 PhoneNumber = person.PhoneNumber;
-                City = person.City;
+                City = person.City ?? new City(); 
             }
         }
     }

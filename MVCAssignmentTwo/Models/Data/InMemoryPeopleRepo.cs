@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCAssignmentTwo.Models.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,17 @@ namespace MVCAssignmentTwo.Models
 {
     public class InMemoryPeopleRepo : IPeopleRepo
     {
-        private static readonly List<Person> _persons = new List<Person>() { 
+        private static readonly List<Person> _persons = new List<Person>();/* { 
             new Person() { Id = _idCounter++, Name = "Kalle Karlsson", PhoneNumber =  "+556 6622", City = "Storstan" } ,
             new Person() { Id = _idCounter++, Name = "Morairy Bolomonio", PhoneNumber = "+266 25553", City = "London" },
             new Person() { Id = _idCounter++, Name = "Kammy Jackson", PhoneNumber = "+7733 5", City = "Middle east" },
             new Person() { Id = _idCounter++, Name = "Martin Jakobsen", PhoneNumber = "+45833 42", City = "Shire" },
             new Person() { Id = _idCounter++, Name = "Sarah Connor", PhoneNumber = "+71241 52", City = "Lostos" },
             new Person() { Id = _idCounter++, Name = "Niel Young", PhoneNumber = "+88863 55", City = "Bologna" },
-        };
+        };*/
         private static int _idCounter;
 
-        public Person Create(string name, string phoneNumber, string city)
+        public Person Create(string name, string phoneNumber, City city)
         {
             Person newPerson = new Person()
             {

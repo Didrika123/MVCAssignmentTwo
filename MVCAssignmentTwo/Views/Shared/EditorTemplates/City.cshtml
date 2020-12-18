@@ -1,0 +1,28 @@
+﻿@model City
+@{
+    string uniqueId = "city-select-list-" + Guid.NewGuid().ToString("N");
+    string uniqueId2 = "country-select-list-" + Guid.NewGuid().ToString("N");
+}
+
+
+
+<label class="control-label">Country</label>
+<select asp-for="@Model.Country.Id" onchange="ReplaceTargetWithAspActionResult(null, '@Url.Action("CitySelectListData", "Cities", new { id = @Model.Id })?countryId=' +  $('#@uniqueId2').val(), '@uniqueId');" id="@uniqueId2" class="form-control"></select>
+<img src onerror="ReplaceTargetWithAspActionResult(null, '@Url.Action("CountrySelectListData", "Countries", new { id = @Model.Country?.Id })', '@uniqueId2');">
+
+
+
+
+
+<label class="control-label" asp-for="@Model.Id"></label>
+<select id="@uniqueId" class="form-control" asp-for="@Model.Id"></select>
+<span class="text text-danger" asp-validation-for="@Model.Id"></span>
+
+<img src onerror="ReplaceTargetWithAspActionResult(null, '@Url.Action("CitySelectListData", "Cities", new { id = @Model.Id, countryId = Model.Country?.Id })', '@uniqueId');">
+
+
+@* 
+
+Clean up
+
+*@

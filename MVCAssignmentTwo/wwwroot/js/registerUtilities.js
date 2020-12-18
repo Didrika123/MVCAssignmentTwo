@@ -1,7 +1,7 @@
 ﻿
 function ReplaceTargetWithAspActionResult(event, htmlElement, targetId) { 
-    event.preventDefault();
-    let actionLink = (htmlElement.attributes.href ?? htmlElement.attributes.formaction).value;  //Attribute HREF is for ANCHORS, FORMACTION is for BUTTONS (Sidenote: wonder what attribute for input?)
+    event?.preventDefault();
+    let actionLink = typeof htmlElement === 'string'? htmlElement : (htmlElement.attributes.href ?? htmlElement.attributes.formaction).value;  //Attribute HREF is for ANCHORS, FORMACTION is for BUTTONS (Sidenote: wonder what attribute for input?)
     
     $.get(
         actionLink, 
@@ -45,9 +45,16 @@ function SubmitForm(event, htmlForm, targetId, resetForm = false) {
 }
 
 function ResetForm(htmlForm) {
+
     for (let i = 0; i < htmlForm.length; i++)
         if(htmlForm[i].type == "text")
             htmlForm[i].value = "";
+
+    // Clear error text from asp-validation spans
+    let spans = htmlForm.getElementsByTagName("span");
+    for (let i = 0; i < spans.length; i++) {
+        spans[i].innerHTML = "";
+    }
 }
 
 function ToggleHtmlElement(targetId) {

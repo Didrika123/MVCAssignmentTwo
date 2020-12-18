@@ -36,6 +36,7 @@ namespace MVCAssignmentTwo.Models
         [Display(Name = "Items:")]
         [Range(1, 20)]
         public int NumEntriesPerPage { get; set; } = 5;
-        //public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
+
+       // public CreatePersonViewModel CreatePersonViewModel { get; set; } = new CreatePersonViewModel();
     }
 }

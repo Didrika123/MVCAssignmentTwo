@@ -14,10 +14,12 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+    <script src="~/js/registerUtilities.js" asp-append-version="true">//asp-apend-verison sidesteps unwanted file-caching by browser because it will rename the file if altered.</script>
+
     <link href="~/css/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
-    <div>
+    <div id="all" class="container">
         @RenderBody()
     </div>
 </body>

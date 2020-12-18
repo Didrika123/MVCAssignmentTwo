@@ -1,0 +1,11 @@
+﻿@model Country
+
+@{
+    string uniqueId = "country-select-list-" + Guid.NewGuid().ToString("N");
+}
+
+<label class="control-label" asp-for="@Model.Id"></label>
+<select id="@uniqueId" class="form-control" asp-for="@Model.Id"></select>
+<span class="text text-danger" asp-validation-for="@Model.Id"></span>
+
+<img src onerror="ReplaceTargetWithAspActionResult(null,  '@Url.Action("CountrySelectListData", "Countries", new { id = @Model.Id })', '@uniqueId');">

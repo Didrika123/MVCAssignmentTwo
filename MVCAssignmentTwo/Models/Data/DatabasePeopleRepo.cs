@@ -14,12 +14,12 @@ namespace MVCAssignmentTwo.Models.Data
         {
             _personDbContext = personDbContext;
         }
-        public Person Create(string name, string phoneNumber, string city)
+        public Person Create(string name, string phoneNumber, City city)
         {
            // Person person = new Person(_personDbContext.Persons.Last().Id + 1, name, phoneNumber, city); //Hmmm, Id ?, we want to make sure its unique and incrementing correctly !
             Person person = new Person(name, phoneNumber, city); //Hmmm, Actually let db do ID handling !
                                                                     // person = _personDbContext.Persons.Add(person).Entity; //I hoped that this would give a new Id, but it didnt 
-            EntityEntry<Person> entityEntry = _personDbContext.Persons.Add(person);
+            EntityEntry<Person> entityEntry = _personDbContext.Persons.Add(person);  // When u do something thru DB Context a hook will be created, if info changes without altering the person object inside that hook there will be problem (For example if you do another db call inside some method that might alter info) Like add -> findby
             _personDbContext.SaveChanges();  //I guess when u save changes it will be given an id, But how do i get it here ? 
             person = entityEntry.Entity;  //NICE it worke !
             return person;
@@ -28,25 +28,25 @@ namespace MVCAssignmentTwo.Models.Data
         public bool Delete(Person person)
         {
             EntityEntry entityEntry = _personDbContext.Persons.Remove(person);
-            _personDbContext.SaveChanges();
+            _personDbContext.SaveChanges();  //Save changes return number of lines in db changed. so u can do a check instead:   if savechange > 0 then sucesful
             return entityEntry.State == EntityState.Deleted;
         }
 
         public List<Person> Read()
         {
-            return _personDbContext.Persons.OrderByDescending(p => p.Id).ToList(); //For aesthetic: When getting unfiltered list, make new entries come at the top. (Mabe order by Date (date updated / created)) 
+            return _personDbContext.Persons.Include(p => p.City).ThenInclude(c => c.Country).OrderByDescending(p => p.Id).ToList(); //For aesthetic: When getting unfiltered list, make new entries come at the top. (Mabe order by Date (date updated / created)) 
         }
 
         public Person Read(int id)  
         {
             //where(row => row.name.contains
-            return _personDbContext.Persons.SingleOrDefault(p => p.Id == id);
+            return _personDbContext.Persons.Include(p => p.City).ThenInclude(c => c.Country).SingleOrDefault(p => p.Id == id);
         }
 
         public Person Update(Person person)
         {
             EntityEntry<Person> entityEntry = _personDbContext.Persons.Update(person);
-            _personDbContext.SaveChanges();
+            int res = _personDbContext.SaveChanges();
             return entityEntry.Entity;
         }
     }

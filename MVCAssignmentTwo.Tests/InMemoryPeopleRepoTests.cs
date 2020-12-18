@@ -7,7 +7,7 @@ namespace MVCAssignmentTwo.Tests
 {
     public class InMemoryPeopleRepoTests
     {
-        [Fact]
+        /*[Fact]
         public void PeopleAllListWorks()
         {
             //Arrange
@@ -41,6 +41,6 @@ namespace MVCAssignmentTwo.Tests
             Assert.Equal(phone, testPerson.PhoneNumber);
             Assert.Equal(city, testPerson.City);
             Assert.Contains(testPerson, resultList);
-        }
+        }*/
     }
 }

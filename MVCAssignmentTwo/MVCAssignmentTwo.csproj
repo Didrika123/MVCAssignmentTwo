@@ -9,6 +9,22 @@
     <Compile Remove="Migrations\20201214092215_InitialDBCreate.Designer.cs" />
     <Compile Remove="Migrations\20201214111811_InitialDBCreate.cs" />
     <Compile Remove="Migrations\20201214111811_InitialDBCreate.Designer.cs" />
+    <Compile Remove="Migrations\20201215113626_AddedCitiesCountries.cs" />
+    <Compile Remove="Migrations\20201215113626_AddedCitiesCountries.Designer.cs" />
+    <Compile Remove="Migrations\20201215124132_AddedHumansCitiesCountries.cs" />
+    <Compile Remove="Migrations\20201215124132_AddedHumansCitiesCountries.Designer.cs" />
+    <Compile Remove="Migrations\20201216085426_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216085426_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201216085536_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216085536_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201216085608_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216085608_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201216163515_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216163515_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201216165824_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216165824_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201216170934_AddedCountriesCities.cs" />
+    <Compile Remove="Migrations\20201216170934_AddedCountriesCities.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +34,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>

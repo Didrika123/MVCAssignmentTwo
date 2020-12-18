@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVCAssignmentTwo.Models;
 using MVCAssignmentTwo.Models.Data;
+using MVCAssignmentTwo.Models.Services;
 
 namespace MVCAssignmentTwo
 {
@@ -31,10 +32,17 @@ namespace MVCAssignmentTwo
             */
 
             //services.AddSingleton<IPeopleRepo, InMemoryPeopleRepo>();
-            services.AddDbContext<RegisterDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<RegisterDbContext>(option => option
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                .EnableSensitiveDataLogging()
+            );
             services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
+            services.AddScoped<ICitiesRepo, DatabaseCitiesRepo>();
+            services.AddScoped<ICountriesRepo, DatabaseCountriesRepo>();
 
             services.AddScoped<IPeopleService, PeopleService>();
+            services.AddScoped<ICitiesService, CitiesService>();
+            services.AddScoped<ICountriesService, CountriesService>();
             services.AddMvc().AddRazorRuntimeCompilation();
         }
 

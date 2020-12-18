@@ -1,14 +1,24 @@
 ﻿@model CreatePersonViewModel
 
 
-<form id="create-person-form" onsubmit="SubmitForm(event, this, 'personlist', true);" class="form-horizontal" method="post" asp-controller="Register" asp-action="CreatePerson">
+<form id="create-person-form" onsubmit="SubmitForm(event, this, 'personlist', true);" class="form-horizontal  border-me" method="post" asp-controller="Register" asp-action="CreatePerson">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
     <span class="text text-danger" asp-validation-for="Name"></span><br />
 
-    <label class="control-label" asp-for="City"></label>
-    <input class="form-control" asp-for="City" />
-    <span class="text text-danger" asp-validation-for="City"></span><br />
+    @*<label class="control-label" asp-for="City"></label>
+                <input class="form-control" asp-for="City" />
+                <span class="text text-danger" asp-validation-for="City"></span><br />
+
+
+            <label class="control-label" asp-for="City.Id"></label>
+            <select class="form-control" asp-for="City.Id" asp-items='new SelectList( Model.Cities, "Id" , "Name")'></select>
+            <span class="text text-danger" asp-validation-for="City.Id"></span>
+
+        <partial name="_CitySelectList" model="@Model.City" />*@
+    @*<select class="form-control" asp-for="Id" asp-items='new SelectList( Model.Cities, "Id" , "Name")'></select>  style="display: none;"  document.getElementById("fetch-cities")*@
+
+    @Html.EditorFor(p => p.City)<br />
 
     <label class="control-label" asp-for="PhoneNumber"></label>
     <input class="form-control" asp-for="PhoneNumber" />

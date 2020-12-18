@@ -4,14 +4,16 @@ using MVCAssignmentTwo.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCAssignmentTwo.Migrations
 {
     [DbContext(typeof(RegisterDbContext))]
-    partial class RegisterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201216190231_AddedCountriesCities")]
+    partial class AddedCountriesCities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +67,6 @@ namespace MVCAssignmentTwo.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("Name")
@@ -78,9 +77,12 @@ namespace MVCAssignmentTwo.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int?>("TheCityId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("TheCityId");
 
                     b.ToTable("Person");
                 });
@@ -96,9 +98,9 @@ namespace MVCAssignmentTwo.Migrations
 
             modelBuilder.Entity("MVCAssignmentTwo.Models.Person", b =>
                 {
-                    b.HasOne("MVCAssignmentTwo.Models.Data.City", "City")
+                    b.HasOne("MVCAssignmentTwo.Models.Data.City", "TheCity")
                         .WithMany("Persons")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("TheCityId");
                 });
 #pragma warning restore 612, 618
         }
