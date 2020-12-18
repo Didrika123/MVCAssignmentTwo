@@ -27,6 +27,16 @@
                 @foreach (var item in Model.Cities)
                 {
                     <li>@item.Name</li>
+
+                    <li>
+                        <ol>
+                            @foreach (var person in item.Persons)
+                            {
+                                <li> @person.Name</li>
+                            }
+                        </ol>
+                        <br />
+                    </li>
                 }
             </ul>
         </dd>

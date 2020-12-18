@@ -34,7 +34,7 @@ namespace MVCAssignmentTwo
             //services.AddSingleton<IPeopleRepo, InMemoryPeopleRepo>();
             services.AddDbContext<RegisterDbContext>(option => option
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                .EnableSensitiveDataLogging()
+                //.EnableSensitiveDataLogging()
             );
             services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
             services.AddScoped<ICitiesRepo, DatabaseCitiesRepo>();

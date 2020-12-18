@@ -25,6 +25,8 @@
     <Compile Remove="Migrations\20201216165824_AddedCountriesCities.Designer.cs" />
     <Compile Remove="Migrations\20201216170934_AddedCountriesCities.cs" />
     <Compile Remove="Migrations\20201216170934_AddedCountriesCities.Designer.cs" />
+    <Compile Remove="Migrations\20201218190522_UpdatedFewThings.cs" />
+    <Compile Remove="Migrations\20201218190522_UpdatedFewThings.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
