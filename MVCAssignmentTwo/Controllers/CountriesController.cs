@@ -13,11 +13,9 @@ namespace MVCAssignmentTwo.Controllers
     public class CountriesController : Controller
     {
         private readonly ICountriesService _countriesService;
-        private readonly ICitiesService _citiesService;
-        public CountriesController(ICountriesService countryService, ICitiesService citiesService)
+        public CountriesController(ICountriesService countryService)
         {
             _countriesService = countryService;
-            _citiesService = citiesService; //Maybe make an action for a partial view with list of cities inside the cities controller  ? 
         }
 
         public ActionResult CountrySelectListData(int id)

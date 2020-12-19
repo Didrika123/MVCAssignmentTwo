@@ -38,7 +38,6 @@ namespace MVCAssignmentTwo.Models.Data
 
         public City Read(int id)
         {
-            //where(row => row.name.contains
             return _registerDbContext.Cities.Include(c => c.Country).Include(c => c.Persons).SingleOrDefault(p => p.Id == id);
         }
         public City LazyRead(int id)

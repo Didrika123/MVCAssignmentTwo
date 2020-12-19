@@ -18,8 +18,6 @@ namespace MVCAssignmentTwo.Models
         [StringLength(20, MinimumLength = 6)]
         public string PhoneNumber { get; set; }
 
-        //  [Display(Name = "City")]
-        // [StringLength(40, MinimumLength = 3)]
         [Required]
         public City City { get; set; } = new City() { Country = new Country()};
 

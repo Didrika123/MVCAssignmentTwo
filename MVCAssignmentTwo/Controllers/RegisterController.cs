@@ -60,7 +60,7 @@ namespace MVCAssignmentTwo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditPerson(int id, CreatePersonViewModel createPersonViewModel)
         {
-            ModelState.Remove("City.Name");
+            ModelState.Remove("City.Name"); //Not so Pretty !
             ModelState.Remove("City.Country");
             ModelState.Remove("City.Country.Name");
             if (ModelState.IsValid)
@@ -107,7 +107,6 @@ namespace MVCAssignmentTwo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PersonList(PeopleViewModel search)
         {
-           //ModelState.Remove("CreatePersonViewModel.Name"); // Since not used for search, Clear the createperson required so that the modelstate can check if valid
             if (ModelState.IsValid)
             {  
                 return PartialView("_PersonListPartialView", _peopleService.FindBy(search, search.PageNumber));

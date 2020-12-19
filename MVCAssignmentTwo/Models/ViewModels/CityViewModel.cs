@@ -13,11 +13,10 @@ namespace MVCAssignmentTwo.Models.ViewModels
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required]
+        public Country Country { get; set; } = new Country(); //Country the city lies in
 
-        public Country Country { get; set; } = new Country();
-        public List<Country> Countries { get; set; }
-
-        public List<Person> Persons { get; set; }
+        public List<Person> Persons { get; set; } //The citizens of the city
 
 
         public CityViewModel()

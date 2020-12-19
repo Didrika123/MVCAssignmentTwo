@@ -65,5 +65,15 @@ namespace MVCAssignmentTwo.Models.Services
         {
             return _citiesRepo.Delete(_citiesRepo.Read(id));
         }
+
+        public List<IHasIdAndName> GetCitiesOfCountry(int countryId)
+        {
+            List<IHasIdAndName> list =
+                   _countriesService.FindBy(countryId)?.Cities.OfType<IHasIdAndName>().ToList()                 //Find the country, then return the cities of that country
+                ?? _countriesService.All().Countries.FirstOrDefault()?.Cities.OfType<IHasIdAndName>().ToList()  //if not found the country then return the first country's cities.
+                ?? new List<IHasIdAndName>();                                                                   //If no countries/cities in database, return empty ist
+                //_citiesService.All().Cities.OfType<IHasIdAndName>().ToList();                                 //Return all cities (Not used anymore)
+            return list;               
+        }
     }
 }

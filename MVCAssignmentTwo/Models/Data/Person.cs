@@ -18,17 +18,16 @@ namespace MVCAssignmentTwo.Models
 
         [Required]
         [MaxLength(100)]  //Very good to add because the db will limit the string (otherwise it will use default: which is a up to 2gb string)
-        [Column("Name")] //Custom Name
+        [Column("Name")] 
         public string Name { get; set; }
 
         [MaxLength(100)]
         public string PhoneNumber { get; set; }
 
 
-        /*string _oldCity = "";
-        [NotMapped]
-        public string City { get { if (TheCity != null) return TheCity.Name; else return _oldCity; } set { _oldCity = value; } }
-        */
+        /* [NotMapped] //If you want to exclude properties from db
+        public string City  */
+
         [Required]
         public City City { get; set; }
 

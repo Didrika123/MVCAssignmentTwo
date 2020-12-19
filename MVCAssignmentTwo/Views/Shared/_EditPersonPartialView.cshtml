@@ -9,9 +9,6 @@
         <input class="form-control" asp-for="Name" />
         <span class="text text-danger" asp-validation-for="Name"></span><br />
 
-        @*<label class="control-label" asp-for="City"></label>
-            <input class="form-control" asp-for="City" />
-            <span class="text text-danger" asp-validation-for="City"></span><br />*@
         @Html.EditorFor(p => p.City)<br />
 
         <label class="control-label" asp-for="PhoneNumber"></label>

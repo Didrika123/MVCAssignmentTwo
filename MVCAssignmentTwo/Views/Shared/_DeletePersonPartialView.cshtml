@@ -6,3 +6,5 @@
 }
 
 <button class="btn btn-danger" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId'); SubmitForm(event, '#peoplesearchform', 'personlist');" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>
+
+@* Small improvement: Make submitform be called after replacetargetwithasp receives the callback. *@

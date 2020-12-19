@@ -24,13 +24,13 @@
         </dt>
         <dd class="col-sm-10">
             <ul>
-                @foreach (var item in Model.Cities)
+                @foreach (var item in Model.Cities) //Could be made a bit more Pretty !
                 {
                     <li>@item.Name</li>
 
                     <li>
                         <ol>
-                            @foreach (var person in item.Persons)
+                            @foreach (var person in item.Persons) 
                             {
                                 <li> @person.Name</li>
                             }

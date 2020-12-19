@@ -16,12 +16,10 @@ namespace MVCAssignmentTwo.Models.Data
         }
         public Person Create(string name, string phoneNumber, City city)
         {
-           // Person person = new Person(_personDbContext.Persons.Last().Id + 1, name, phoneNumber, city); //Hmmm, Id ?, we want to make sure its unique and incrementing correctly !
-            Person person = new Person(name, phoneNumber, city); //Hmmm, Actually let db do ID handling !
-                                                                    // person = _personDbContext.Persons.Add(person).Entity; //I hoped that this would give a new Id, but it didnt 
+            Person person = new Person(name, phoneNumber, city); 
             EntityEntry<Person> entityEntry = _personDbContext.Persons.Add(person);  // When u do something thru DB Context a hook will be created, if info changes without altering the person object inside that hook there will be problem (For example if you do another db call inside some method that might alter info) Like add -> findby
-            _personDbContext.SaveChanges();  //I guess when u save changes it will be given an id, But how do i get it here ? 
-            person = entityEntry.Entity;  //NICE it worke !
+            _personDbContext.SaveChanges();                                          // AKA, EF keeps track of all objects in memory that are READ from the database, So if you Have multiple in memory and try to change one, It wont work ! (So therfore Eager / Lazy is important to know )
+            person = entityEntry.Entity;  
             return person;
         }
 
@@ -39,14 +37,13 @@ namespace MVCAssignmentTwo.Models.Data
 
         public Person Read(int id)  
         {
-            //where(row => row.name.contains
             return _personDbContext.Persons.Include(p => p.City).ThenInclude(c => c.Country).SingleOrDefault(p => p.Id == id);
         }
 
         public Person Update(Person person)
         {
             EntityEntry<Person> entityEntry = _personDbContext.Persons.Update(person);
-            int res = _personDbContext.SaveChanges();
+             _personDbContext.SaveChanges();
             return entityEntry.Entity;
         }
     }

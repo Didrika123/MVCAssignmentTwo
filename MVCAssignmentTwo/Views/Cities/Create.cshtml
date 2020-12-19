@@ -17,11 +17,8 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <br />
-                @Html.EditorFor(c => c.Country)
 
-                @*<label style="margin-left: 1em;" asp-for="Country.Id"></label>
-                <select class="form-control" asp-for="Country.Id" asp-items='new SelectList( Model.Countries, "Id" , "Name")'></select>
-                <span asp-validation-for="Country.Id"></span>*@
+                @Html.EditorFor(c => c.Country)
 
             </div>
 
@@ -35,14 +32,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@*
-
-
-    <label style="margin-left: 1em;" asp-for="CountryIds"></label>
-    <select multiple class="form-control" asp-for="CountryIds" asp-items='new MultiSelectList( Model.Countries, "Id" , "Name")'></select>
-    <span asp-validation-for="CountryIds"></span>
-
-
-
-*@

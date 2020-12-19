@@ -19,5 +19,6 @@ namespace MVCAssignmentTwo.Models.Services
         City LazyFindBy(int id);
         City Edit(int id, CityViewModel cityViewModel);
         bool Remove(int id);
+        List<IHasIdAndName> GetCitiesOfCountry(int countryId);
     }
 }
