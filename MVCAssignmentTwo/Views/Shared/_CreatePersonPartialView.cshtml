@@ -8,6 +8,8 @@
 
     @Html.EditorFor(p => p.City)<br />
 
+    @Html.EditorFor(p => p.LanguageSelectionViewModel)<br />
+
     <label class="control-label" asp-for="PhoneNumber"></label>
     <input class="form-control" asp-for="PhoneNumber" />
     <span class="text text-danger" asp-validation-for="PhoneNumber"></span><br />

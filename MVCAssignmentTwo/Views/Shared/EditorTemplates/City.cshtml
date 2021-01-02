@@ -17,5 +17,11 @@
 <span class="text text-danger" asp-validation-for="@Model.Id"></span>
 
 @* Having src onerror makes the partial view run this javascript when the partial view is updated. There is probably a much more elegant way to do it but I was unable to find it. $(document).ready etc didnt work cuz only the partial updates *@
-<img src onerror="ReplaceTargetWithAspActionResult(null, '@actionLinkCountries', '@uniqueCountrySelectId');">
-<img src onerror="ReplaceTargetWithAspActionResult(null, '@actionLinkCities' + '@Model.Country?.Id', '@uniqueCitySelectId');">
+@*<img src onerror="ReplaceTargetWithAspActionResult(null, '@actionLinkCountries', '@uniqueCountrySelectId');">
+    <img src onerror="ReplaceTargetWithAspActionResult(null, '@actionLinkCities' + '@Model.Country?.Id', '@uniqueCitySelectId');">*@
+
+
+<script type="text/javascript">
+    ReplaceTargetWithAspActionResult(null, '@actionLinkCountries', '@uniqueCountrySelectId');
+    ReplaceTargetWithAspActionResult(null, '@actionLinkCities' + '@Model.Country?.Id', '@uniqueCitySelectId');
+</script>

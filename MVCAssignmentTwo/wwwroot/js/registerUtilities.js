@@ -18,6 +18,16 @@ function GetFormData($form) {
     $.map(unindexed_array, function (n, i) {
         if (indexed_array[n['name']] === undefined) // A little fix for checkboxes, (Asp-for? adds an extra hidden checkbox at the end of form for some reason with always false value)
             indexed_array[n['name']] = n['value'];
+        else if (indexed_array[n['name']] !== 'true') //This if statement will be run if the "form-input-element-id" already have gotten a value (Aka for multiple selects). Also the asp-for hidden checkbox we dont want to make an array, so check if its "true" then dont make array
+        {
+            //console.log(indexed_array[n['name']]);
+            //A little fix for multiple select, since if many selects it will pass (name: 1 value: 1), (name: 1 value: 2) and the second will overwrite the first one, So now if we discover multiple with same name, we make an array
+            if (Array.isArray(indexed_array[n['name']]))
+                indexed_array[n['name']] = [...indexed_array[n['name']], n['value']];
+            else
+                indexed_array[n['name']] = [indexed_array[n['name']], n['value']];
+            
+        }
     });
 
     return indexed_array;
@@ -38,10 +48,33 @@ function SubmitForm(event, htmlForm, targetId, resetForm = false) {
         }).fail(function (output) {
             let htmlResponse = $.parseHTML(output.responseText, document, true);
             let theFormHtml = htmlResponse.find(n => n.id === htmlForm.id);
-            if(theFormHtml != null)
-                htmlForm.replaceWith(theFormHtml);
-        });
+            if (theFormHtml != null)
+                ReplaceSpans(htmlForm, theFormHtml);
+                //htmlForm.replaceWith(theFormHtml);
 
+
+            //$(htmlForm).find("script").each(function () {
+            //    console.log($(this).text());
+            //    eval($(this).text());
+            //});
+        }, "html"); // Hmm, Maybe not reset entire form but just input error text? 
+
+}
+
+function ReplaceSpans(htmlForm, newForm) { //By replacing only the spans (Which contain modelstate validation error info) I dont have to re-send select list data
+    let oldSpans = $(htmlForm).find("span");
+    let newSpans = $(newForm).find("span");
+    for (let i = 0; i < oldSpans.length; i++) {
+        oldSpans[i].replaceWith(newSpans[i]);
+    }
+    /*
+    $(htmlForm).find("span").each(function () {
+        let _this = $(this);
+        console.log(_this);
+        console.log(_this.id);
+        console.log(htmlForm.find(_this.id));
+        _this.replaceWith(htmlForm.find(_this.id));
+    });*/
 }
 
 function ResetForm(htmlForm) {

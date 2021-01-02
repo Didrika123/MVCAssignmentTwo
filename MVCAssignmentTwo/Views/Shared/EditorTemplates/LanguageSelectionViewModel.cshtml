@@ -1,0 +1,18 @@
+﻿@model LanguageSelectionViewModel
+
+@{
+    string uniqueId = "language-select-list-" + Guid.NewGuid().ToString("N");
+    string selectedLangs = "";
+    if (Model.LanguageIds != null)
+        selectedLangs = String.Join(',', Model.LanguageIds);
+}
+<label class="control-label" asp-for="@Model.LanguageIds"></label>
+<select multiple="multiple" id="@uniqueId" class="form-control form-select" asp-for="@Model.LanguageIds"></select>
+<span class="text text-danger" asp-validation-for="@Model.LanguageIds"></span>
+
+@*<img src onerror="ReplaceTargetWithAspActionResult(null,  '@Url.Action("LanguageSelectListData", "Languages", new { selectedIds = selectedLangs})', '@uniqueId');">*@
+
+
+<script type="text/javascript">
+    ReplaceTargetWithAspActionResult(null,  '@Url.Action("LanguageSelectListData", "Languages", new { selectedIds = selectedLangs})', '@uniqueId');
+</script>

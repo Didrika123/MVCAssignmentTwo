@@ -1,10 +1,15 @@
 ﻿@model List<IHasIdAndName>
 @{
-    int selectedId = ViewBag.SelectedId;
+    var selectedIds = ViewBag.SelectedIds;
+    var selectedId = ViewBag.SelectedId;
 }
 @foreach (var item in Model)
 {
-    if (item.Id == selectedId)
+    if (selectedId == item.Id)
+    {
+        <option value="@item.Id" selected>@item.Name</option>
+    }
+    else if (selectedIds != null && selectedIds is string[] && (selectedIds as string[]).Contains(item.Id.ToString()))
     {
         <option value="@item.Id" selected>@item.Name</option>
     }

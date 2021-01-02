@@ -8,7 +8,7 @@ namespace MVCAssignmentTwo.Models
 {
     public interface IPeopleRepo
     {
-        Person Create(string name, string phoneNumber, City city);
+        Person Create(string name, string phoneNumber, City city, List<PersonLanguage> personLanguages);
         List<Person> Read();
         Person Read(int id);
         Person Update(Person person);

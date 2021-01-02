@@ -33,13 +33,16 @@ namespace MVCAssignmentTwo
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 //.EnableSensitiveDataLogging()
             );
+
             services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
             services.AddScoped<ICitiesRepo, DatabaseCitiesRepo>();
             services.AddScoped<ICountriesRepo, DatabaseCountriesRepo>();
+            services.AddScoped<ILanguagesRepo, DatabaseLanguagesRepo>();
 
             services.AddScoped<IPeopleService, PeopleService>();
             services.AddScoped<ICitiesService, CitiesService>();
             services.AddScoped<ICountriesService, CountriesService>();
+            services.AddScoped<ILanguagesService, LanguagesService>();
             services.AddMvc().AddRazorRuntimeCompilation();
         }
 

@@ -8,4 +8,9 @@
 <select id="@uniqueId" class="form-control" asp-for="@Model.Id"></select>
 <span class="text text-danger" asp-validation-for="@Model.Id"></span>
 
-<img src onerror="ReplaceTargetWithAspActionResult(null,  '@Url.Action("CountrySelectListData", "Countries", new { id = @Model.Id })', '@uniqueId');">
+@*<img src onerror="ReplaceTargetWithAspActionResult(null,  '@Url.Action("CountrySelectListData", "Countries", new { id = @Model.Id })', '@uniqueId');">*@
+
+
+<script type="text/javascript">
+    ReplaceTargetWithAspActionResult(null,  '@Url.Action("CountrySelectListData", "Countries", new { id = @Model.Id })', '@uniqueId');
+</script>

@@ -1,4 +1,5 @@
-﻿using MVCAssignmentTwo.Models.Services;
+﻿using MVCAssignmentTwo.Models.Data;
+using MVCAssignmentTwo.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace MVCAssignmentTwo.Models
     {
         readonly IPeopleRepo _peopleRepo;
         readonly ICitiesService _citiesService;
-        public PeopleService(IPeopleRepo peopleRepo, ICitiesService citiesService)
+        readonly ILanguagesService _languagesService;
+        public PeopleService(IPeopleRepo peopleRepo, ICitiesService citiesService, ILanguagesService languagesService)
         {
             _peopleRepo = peopleRepo;
             _citiesService = citiesService;
+            _languagesService = languagesService;
         }
         public Person Add(CreatePersonViewModel person)
         {
@@ -21,7 +24,14 @@ namespace MVCAssignmentTwo.Models
             if (person.City == null)
                 return null;
 
-            return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City);
+             //Maybe add a check see if language exist thru language service ?
+            List<PersonLanguage> personLanguages = new List<PersonLanguage>();
+            foreach (var item in person.LanguageSelectionViewModel.LanguageIds)
+            {
+                personLanguages.Add(new PersonLanguage() {LanguageId = item });
+            }
+
+            return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City, personLanguages);
         }
 
         public PeopleViewModel All()
@@ -40,12 +50,25 @@ namespace MVCAssignmentTwo.Models
             if (person.City == null)
                 return null;
 
-            Person editPerson = new Person(id, person.Name, person.PhoneNumber, person.City);
+            List<PersonLanguage> personLanguages = new List<PersonLanguage>();
+            foreach (var item in person.LanguageSelectionViewModel.LanguageIds)
+             {
+                Language language = _languagesService.FindBy(item);
+                if (language == null)
+                    return null;
+                personLanguages.Add(new PersonLanguage() { Language = language});
+            }
+
+            //Find old person in db, then update her info, then send back to db for update
+            Person editPerson = FindBy(id);
+            if (editPerson == null)
+                return null;
+
+            editPerson.Name = person.Name;
+            editPerson.PhoneNumber = person.PhoneNumber;
+            editPerson.City = person.City;
+            editPerson.PersonLanguages = personLanguages;
             return _peopleRepo.Update(editPerson);
-        }
-        public Person Edit(Person person)
-        {
-            return _peopleRepo.Update(person);
         }
 
         public PeopleViewModel FindBy(PeopleViewModel search)

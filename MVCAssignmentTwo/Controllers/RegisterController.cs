@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MVCAssignmentTwo.Models;
+using MVCAssignmentTwo.Models.Data;
 using Nancy.Json;
 
 namespace MVCAssignmentTwo.Controllers
@@ -15,6 +16,11 @@ namespace MVCAssignmentTwo.Controllers
         public RegisterController(IPeopleService peopleService)
         {
             _peopleService = peopleService;
+        }
+        public ActionResult PersonSelectListData(int id)
+        {
+            ViewBag.SelectedId = id;
+            return PartialView("_SelectListData", _peopleService.All().Persons.OfType<IHasIdAndName>().ToList());
         }
 
         public IActionResult Index()
@@ -39,7 +45,7 @@ namespace MVCAssignmentTwo.Controllers
         public IActionResult DeletePerson(int id)
         {
             if (_peopleService.Remove(id))
-                return Ok();
+                return Ok("");
             else return NotFound();
         }
 

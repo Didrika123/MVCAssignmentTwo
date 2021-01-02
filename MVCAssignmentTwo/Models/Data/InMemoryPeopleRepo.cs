@@ -18,7 +18,7 @@ namespace MVCAssignmentTwo.Models
         };*/
         private static int _idCounter;
 
-        public Person Create(string name, string phoneNumber, City city)
+        public Person Create(string name, string phoneNumber, City city, List<PersonLanguage> personLanguages)
         {
             Person newPerson = new Person()
             {

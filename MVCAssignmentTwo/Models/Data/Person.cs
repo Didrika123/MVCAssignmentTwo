@@ -10,7 +10,7 @@ using MVCAssignmentTwo.Models.Data;
 namespace MVCAssignmentTwo.Models
 {
     [Table("Person")] //Custom Name
-    public class Person
+    public class Person : IHasIdAndName
     {
         [Key]
         [Display(Name = "Person")]
@@ -31,19 +31,22 @@ namespace MVCAssignmentTwo.Models
         [Required]
         public City City { get; set; }
 
+        public List<PersonLanguage> PersonLanguages { get; set; }
+
 
         public Person()
         {
 
         }
-        public Person(string name, string phonenum, City city)
+        public Person(string name, string phonenum, City city, List<PersonLanguage> personLanguages)
         {
             Name = name;
             PhoneNumber = phonenum;
             City = city;
+            PersonLanguages = personLanguages;
         }
 
-        public Person(int id, string name, string phonenum, City city) : this(name, phonenum, city)
+        public Person(int id, string name, string phonenum, City city, List<PersonLanguage> personLanguages) : this(name, phonenum, city, personLanguages)
         {
             Id = id;
         }

@@ -27,6 +27,10 @@
     <Compile Remove="Migrations\20201216170934_AddedCountriesCities.Designer.cs" />
     <Compile Remove="Migrations\20201218190522_UpdatedFewThings.cs" />
     <Compile Remove="Migrations\20201218190522_UpdatedFewThings.Designer.cs" />
+    <Compile Remove="Migrations\20201228110637_ChangedDBContext.cs" />
+    <Compile Remove="Migrations\20201228110637_ChangedDBContext.Designer.cs" />
+    <Compile Remove="Migrations\20201228110716_ChangedDBContext.cs" />
+    <Compile Remove="Migrations\20201228110716_ChangedDBContext.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

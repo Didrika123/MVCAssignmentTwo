@@ -4,14 +4,22 @@
     string targetId = "persondiv" + Model.Id;
 }
 <div class="row  vertical-center-text-in-div">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <span class="text">@Model.Name</span>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <span>@Model.City?.Name</span>
     </div>
     <div class="col-sm-3">
         <span>@Model.PhoneNumber</span>
+    </div>
+    <div class="col-sm-2">
+        @foreach (var item in Model.PersonLanguages)
+        {
+            <span>
+                @item.Language?.Abbreviation,
+            </span>
+        }
     </div>
     <div class="col-sm-2">
         <span class="p-2">

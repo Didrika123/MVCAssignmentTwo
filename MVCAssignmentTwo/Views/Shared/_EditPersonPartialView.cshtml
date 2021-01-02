@@ -4,18 +4,20 @@
     var routeId = ViewContext.RouteData.Values["id"];
     string targetId = "persondiv" + routeId;
 }
-    <form onsubmit="SubmitForm(event, this, '@targetId');" class="form-horizontal border-me" method="post" asp-action="EditPerson" asp-controller="Register" asp-route-id="@routeId">
-        <label class="control-label" asp-for="Name"></label>
-        <input class="form-control" asp-for="Name" />
-        <span class="text text-danger" asp-validation-for="Name"></span><br />
+<form onsubmit="SubmitForm(event, this, '@targetId');" class="form-horizontal border-me" method="post" asp-action="EditPerson" asp-controller="Register" asp-route-id="@routeId">
+    <label class="control-label" asp-for="Name"></label>
+    <input class="form-control" asp-for="Name" />
+    <span class="text text-danger" asp-validation-for="Name"></span><br />
 
-        @Html.EditorFor(p => p.City)<br />
+    @Html.EditorFor(p => p.City)<br />
 
-        <label class="control-label" asp-for="PhoneNumber"></label>
-        <input class="form-control" asp-for="PhoneNumber" />
-        <span class="text text-danger" asp-validation-for="PhoneNumber"></span><br />
+    @Html.EditorFor(p => p.LanguageSelectionViewModel)<br />
 
-        <input class="btn btn-success" type="submit" value="Save" />
-        <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="GetPerson" asp-route-id="@routeId">Cancel</button>
-    </form>
+    <label class="control-label" asp-for="PhoneNumber"></label>
+    <input class="form-control" asp-for="PhoneNumber" />
+    <span class="text text-danger" asp-validation-for="PhoneNumber"></span><br />
+
+    <input class="btn btn-success" type="submit" value="Save" />
+    <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId');" asp-controller="Register" asp-action="GetPerson" asp-route-id="@routeId">Cancel</button>
+</form>
 
