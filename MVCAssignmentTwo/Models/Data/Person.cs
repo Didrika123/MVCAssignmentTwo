@@ -24,10 +24,6 @@ namespace MVCAssignmentTwo.Models
         [MaxLength(100)]
         public string PhoneNumber { get; set; }
 
-
-        /* [NotMapped] //If you want to exclude properties from db
-        public string City  */
-
         [Required]
         public City City { get; set; }
 

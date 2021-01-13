@@ -4,7 +4,7 @@
     var routeId = ViewContext.RouteData.Values["id"];
     string targetId = "persondiv" + routeId;
 }
-<form onsubmit="SubmitForm(event, this, '@targetId');" class="form-horizontal border-me" method="post" asp-action="EditPerson" asp-controller="Register" asp-route-id="@routeId">
+<form onsubmit="SubmitForm(event, this, '@targetId', false, Flash, '@targetId');" class="form-horizontal border-me" method="post" asp-action="EditPerson" asp-controller="Register" asp-route-id="@routeId">
     <label class="control-label" asp-for="Name"></label>
     <input class="form-control" asp-for="Name" />
     <span class="text text-danger" asp-validation-for="Name"></span><br />

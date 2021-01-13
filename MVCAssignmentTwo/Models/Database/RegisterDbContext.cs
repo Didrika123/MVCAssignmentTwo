@@ -20,22 +20,17 @@ namespace MVCAssignmentTwo.Models.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // A many-to-many is really two one-to-many relationsships
             modelBuilder.Entity<PersonLanguage>()
                 .HasKey(pl => new { pl.PersonId, pl.LanguageId }); //The personId + LanguageId form the composite primary key for the PersonLanguage Objects (So multiple identical personlang cant exist)
 
-            //modelBuilder.Entity<PersonLanguage>()
-            //    .HasOne(pl => pl.Language)
-            //    .WithMany() //l => l.PersonLanguages
-            //    .OnDelete(DeleteBehavior.Restrict); //no cascade delete 
-            // Add same for Person
-
-            // You could write a many-to-many modelbuilder that auto creates the joint table.
-            //Not sure if this is required
+            // This creates a one-to-many relationship ebetween PL and person
             modelBuilder.Entity<PersonLanguage>()
                 .HasOne(pl => pl.Person)
                 .WithMany(p => p.PersonLanguages)
                 .HasForeignKey(pl => pl.PersonId);
 
+            // This creates a one-to-many relationship ebetween PL and Language
             modelBuilder.Entity<PersonLanguage>()
                 .HasOne(pl => pl.Language)
                 .WithMany(l => l.PersonLanguages)

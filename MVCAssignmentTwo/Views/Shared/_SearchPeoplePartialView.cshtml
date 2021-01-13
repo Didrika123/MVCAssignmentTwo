@@ -25,7 +25,7 @@
 
 
     <input id="filter-btn" class="btn btn-primary" style="margin-left: 1em;" type="submit" value="Filter" />
-    <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist'); peoplesearchform.reset();" asp-controller="Register" asp-action="PersonList" asp-route-id="0">Clear</button>
+    <button class="btn btn-warning" onclick="ReplaceTargetWithAspActionResult(event, this, 'personlist'); peoplesearchform.reset(); peoplesearchform.PageNumber.value = 0;" asp-controller="Register" asp-action="PersonList" asp-route-id="0">Clear</button>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 </form>

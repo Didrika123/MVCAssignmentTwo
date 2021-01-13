@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MVCAssignmentTwo.Models.Data
 {
-    public class PersonLanguage
+    public class PersonLanguage // Association table or join table  (Only required of EF to understand relationships for database, will not be required in asp.net 5.0)
     {
-
+         // You could add an Id here for the PersonLanguages ( For some databases its even required, but not sqlserver )
         [Required]
         public int PersonId { get; set; }
         [Required]
