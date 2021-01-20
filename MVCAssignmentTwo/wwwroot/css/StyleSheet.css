@@ -1,6 +1,20 @@
 ﻿body {
     background-color: aliceblue;
 }
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: large;
+    padding: 1em;
+}
+.navbar-nav {
+    justify-content: center;
+    padding: 1em;
+} 
+.navbar a:hover{
+    color: lightseagreen;
+    text-decoration: none;
+}
 ul, li {
     list-style: none;
     padding: 0;

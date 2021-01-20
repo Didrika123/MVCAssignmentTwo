@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVCAssignmentTwo.Models.Data;
@@ -10,6 +11,7 @@ using MVCAssignmentTwo.Models.ViewModels;
 
 namespace MVCAssignmentTwo.Controllers
 {
+    [Authorize(Roles = "Peach,Banana")]
     public class CountriesController : Controller
     {
         private readonly ICountriesService _countriesService;
@@ -18,10 +20,15 @@ namespace MVCAssignmentTwo.Controllers
             _countriesService = countryService;
         }
 
+        [AllowAnonymous]
         public ActionResult CountrySelectListData(int id)
         {
-            ViewBag.SelectedId = id;
-            return PartialView("_SelectListData", _countriesService.All().Countries.OfType<IHasIdAndName>().ToList());
+            if (User.IsInRole("Peach") || User.IsInRole("Banana") || User.IsInRole("Apple"))
+            {
+                ViewBag.SelectedId = id;
+                return PartialView("_SelectListData", _countriesService.All().Countries.OfType<IHasIdAndName>().ToList());
+            }
+            return NotFound();
         }
         // GET: CountriesController
         public ActionResult Index()

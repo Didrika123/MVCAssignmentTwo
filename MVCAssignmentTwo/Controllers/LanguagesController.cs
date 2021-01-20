@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVCAssignmentTwo.Models.Data;
@@ -10,6 +11,7 @@ using MVCAssignmentTwo.Models.ViewModels;
 
 namespace MVCAssignmentTwo.Controllers
 {
+    [Authorize(Roles = "Peach,Banana")]
     public class LanguagesController : Controller
     {
         private readonly ILanguagesService _languagesService;
@@ -17,12 +19,17 @@ namespace MVCAssignmentTwo.Controllers
         {
             _languagesService = languagesService;
         }
+        [AllowAnonymous]
         public ActionResult LanguageSelectListData(string selectedIds)
         {
-            if(!String.IsNullOrEmpty(selectedIds))
-                ViewBag.SelectedIds = selectedIds.Split(',');
+            if (User.IsInRole("Peach") || User.IsInRole("Banana") || User.IsInRole("Apple"))
+            {
+                if (!String.IsNullOrEmpty(selectedIds))
+                    ViewBag.SelectedIds = selectedIds.Split(',');
 
-            return PartialView("_SelectListData", _languagesService.All().Languages.OfType<IHasIdAndName>().ToList());
+                return PartialView("_SelectListData", _languagesService.All().Languages.OfType<IHasIdAndName>().ToList());
+            }
+            return NotFound();
         }
         // GET: LanguagesController
         public ActionResult Index()

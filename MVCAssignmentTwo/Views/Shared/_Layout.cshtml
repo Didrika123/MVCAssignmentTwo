@@ -19,7 +19,27 @@
     <link href="~/css/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Brand</a>
+        <div class="navbar-nav">
+
+            <span>|</span>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="nav-item nav-link active" asp-controller="Register" asp-action="People">People Register</a>
+                <a class="nav-item nav-link active" asp-controller="Account" asp-action="MyProfile">My Profile</a>
+                <a class="nav-item nav-link active" asp-controller="Account" asp-action="SignOut">Sign Out</a>
+            }
+            else
+            {
+                <a class="nav-item nav-link active" asp-controller="Account" asp-action="Login">Login</a>
+                <a class="nav-item nav-link active" asp-controller="Account" asp-action="SignUp">Sign Up</a>
+            }
+        </div>
+    </nav>
+
     <div id="all" class="container">
+
         @RenderBody()
     </div>
 </body>

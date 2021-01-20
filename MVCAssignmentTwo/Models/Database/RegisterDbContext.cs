@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MVCAssignmentTwo.Models.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MVCAssignmentTwo.Models.Identity;
 
 namespace MVCAssignmentTwo.Models.Data
 {
-    public class RegisterDbContext : DbContext
+    //public class RegisterDbContext : DbContext  //Pre-Identity
+    public class RegisterDbContext : IdentityDbContext<AppUser>
     {
+        //public RegisterDbContext(DbContextOptions<RegisterDbContext> options) : base(options) { } //Pre-Identity
         public RegisterDbContext(DbContextOptions<RegisterDbContext> options) : base(options) { }
         public DbSet<Person> Persons { get; set; }
 
@@ -20,6 +25,8 @@ namespace MVCAssignmentTwo.Models.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);  // Must add this for Identity
+            
             // A many-to-many is really two one-to-many relationsships
             modelBuilder.Entity<PersonLanguage>()
                 .HasKey(pl => new { pl.PersonId, pl.LanguageId }); //The personId + LanguageId form the composite primary key for the PersonLanguage Objects (So multiple identical personlang cant exist)

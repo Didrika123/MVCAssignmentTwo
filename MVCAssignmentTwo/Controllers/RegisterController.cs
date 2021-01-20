@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCAssignmentTwo.Models;
 using MVCAssignmentTwo.Models.Data;
@@ -10,6 +11,7 @@ using Nancy.Json;
 namespace MVCAssignmentTwo.Controllers
 {
     [Route("{controller=Register}/{action=People}/{id?}")]
+    [Authorize]
     public class RegisterController : Controller
     {
         readonly IPeopleService _peopleService;
@@ -23,6 +25,7 @@ namespace MVCAssignmentTwo.Controllers
             return PartialView("_SelectListData", _peopleService.All().Persons.OfType<IHasIdAndName>().ToList());
         }
 
+        [Authorize(Roles = "Peach")]
         public IActionResult Index()
         {
             return View();
@@ -42,6 +45,8 @@ namespace MVCAssignmentTwo.Controllers
             }
             else return NotFound(); //404
         }
+
+        [Authorize(Roles = "Peach,Banana")]
         public IActionResult DeletePerson(int id)
         {
             if (_peopleService.Remove(id))

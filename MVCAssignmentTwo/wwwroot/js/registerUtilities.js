@@ -101,6 +101,7 @@ function ToggleHtmlElement(targetId) {
 
 function CreatePersonSuccess() {
     ToggleHtmlElement('create-person-form-container');
+    document.getElementById('btn-add-person').classList.toggle('btn-warning');
     peoplesearchform.PageNumber.value = 0; // Pagenumber managing could be made cleaner !
     let htmlId = document.getElementById('personlist').children[1].id;
     Flash(htmlId);
@@ -120,5 +121,18 @@ function FlashLogic(htmlElement) {
     htmlElement.style = flashCounter-- % 2 == 0 ? "background-color: #55ff55;" : "background-color: #66ee66;";
     if (flashCounter < 0) {
         htmlElement.style = "background-color: 0;";
+    }
+}
+
+
+
+function PasswordToggle(button, targetId) {
+    var x = document.getElementById(targetId);
+    if (x.type === "text") {
+        x.type = "password";
+        button.value = "Show Password";
+    } else {
+        x.type = "text";
+        button.value = "Hide Password";
     }
 }

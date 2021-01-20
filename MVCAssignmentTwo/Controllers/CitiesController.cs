@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,24 @@ using MVCAssignmentTwo.Models.ViewModels;
 
 namespace MVCAssignmentTwo.Controllers
 {
+    [Authorize(Roles = "Peach,Banana")]
     public class CitiesController : Controller
     {
         private readonly ICitiesService _citiesService;
         public CitiesController(ICitiesService citiesService)
         {
-            _citiesService = citiesService; 
+            _citiesService = citiesService;
         }
+
+        [AllowAnonymous] // Why is there no AllowRole="Apple" for a single action! :(
         public ActionResult CitySelectListData(int id, int countryId)
         {
-            ViewBag.SelectedId = id;
-            return PartialView("_SelectListData", _citiesService.GetCitiesOfCountry(countryId));
+            if (User.IsInRole("Peach") || User.IsInRole("Banana") || User.IsInRole("Apple"))
+            {
+                ViewBag.SelectedId = id;
+                return PartialView("_SelectListData", _citiesService.GetCitiesOfCountry(countryId));
+            }
+            return NotFound();
         }
 
         // GET: CitiesController

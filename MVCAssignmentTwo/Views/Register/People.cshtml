@@ -8,15 +8,34 @@
 
 <h1>People Register</h1>
 <hr />
-<button class="btn btn-success" onclick="ToggleHtmlElement('create-person-form-container'); this.classList.toggle('btn-warning');">Add New Person</button>
-<button class="btn btn-danger" onclick="$('#all').html('');">Delete all</button>
-<a class="btn btn-primary" asp-controller="Cities" asp-action="Index" asp-route-id="666">City Manager</a>
-<a class="btn btn-primary" asp-controller="Countries" asp-action="Index" asp-route-id="666">Country Manager</a>
-<a class="btn btn-primary" asp-controller="Languages" asp-action="Index" asp-route-id="666">Language Manager</a>
 
-<div style="display: none;" id="create-person-form-container">
-    <partial name="_CreatePersonPartialView" model="new CreatePersonViewModel()" />
+<div id="register-navbar">
+    <button id="btn-add-person" class="btn btn-success" onclick="ToggleHtmlElement('create-person-form-container'); this.classList.toggle('btn-warning');">Add New Person</button>
+    @if (User.IsInRole("Peach") && false)
+    {
+        <button class="btn btn-danger" onclick="$('#all').html('');">Delete all</button>
+    }
+
+
+    @if (User.IsInRole("Peach") || User.IsInRole("Banana"))
+    {
+        <span>|</span>
+        <a class="btn btn-primary" asp-controller="Cities" asp-action="Index" asp-route-id="666">City Manager</a>
+        <a class="btn btn-primary" asp-controller="Countries" asp-action="Index" asp-route-id="666">Country Manager</a>
+        <a class="btn btn-primary" asp-controller="Languages" asp-action="Index" asp-route-id="666">Language Manager</a>
+        @if (User.IsInRole("Peach"))
+        {
+            <a class="btn btn-primary" asp-controller="Admin" asp-action="Index" asp-route-id="666">User Manager</a>
+        }
+    }
+
+
+    <div style="display: none;" id="create-person-form-container">
+        <partial name="_CreatePersonPartialView" model="new CreatePersonViewModel()" />
+    </div>
 </div>
+
+
 <hr />
 <partial name="_SearchPeoplePartialView" model="Model" />
 <hr />

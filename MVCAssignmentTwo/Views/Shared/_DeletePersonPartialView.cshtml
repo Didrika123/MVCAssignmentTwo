@@ -5,5 +5,8 @@
     string targetId = "persondiv" + Model;
 }
 
-<button class="btn btn-danger" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId', SubmitForm, [event, '#peoplesearchform', 'personlist']);" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>
+@if (User.IsInRole("Peach") || User.IsInRole("Banana"))
+{
+    <button class="btn btn-danger" onclick="ReplaceTargetWithAspActionResult(event, this, '@targetId', SubmitForm, [event, '#peoplesearchform', 'personlist']);" asp-controller="Register" asp-action="DeletePerson" asp-route-id="@Model">X</button>
+}
 

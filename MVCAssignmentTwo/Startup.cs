@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVCAssignmentTwo.Models;
 using MVCAssignmentTwo.Models.Data;
+using MVCAssignmentTwo.Models.Identity;
 using MVCAssignmentTwo.Models.Services;
 
 namespace MVCAssignmentTwo
@@ -21,6 +23,12 @@ namespace MVCAssignmentTwo
         public Startup(IConfiguration config) { Configuration = config; }
         public void ConfigureServices(IServiceCollection services)
         {
+            // For Identity
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<RegisterDbContext>()
+                .AddDefaultTokenProviders();
+
+
             /*
              * There are different types of injection 
              * - Transient: Recreated each time requested from the Service
@@ -56,6 +64,10 @@ namespace MVCAssignmentTwo
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            // For identity
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

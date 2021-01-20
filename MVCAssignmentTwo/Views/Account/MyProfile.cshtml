@@ -1,0 +1,31 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h1>@Model.UserName</h1>
+
+<ul>
+    <li>
+        <p>@Model.FirstName @Model.LastName</p>
+    </li>
+    <li>
+        <p>@Model.Birthdate</p>
+    </li>
+    <li>
+        @if (@User.IsInRole("Peach"))
+        {
+            <p>+ + SUPER ADMIN + +</p>
+        }
+        else if (@User.IsInRole("Banana"))
+        {
+            <p>+ + ADMIN + +</p>
+        }
+        else if (@User.IsInRole("Apple"))
+        {
+            <p>+ + MEMBER + +</p>
+        }
+
+    </li>
+</ul>

@@ -1,4 +1,10 @@
-﻿using MVCAssignmentTwo.Models.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MVCAssignmentTwo.Models.Data;
+using MVCAssignmentTwo.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +14,53 @@ namespace MVCAssignmentTwo.Models.Database
 {
     public static class DbInitializer
     {
-        public static void Initialize(RegisterDbContext context)
+        public static IHost CreateDatabaseIfNotExisting(IHost host)
         {
+            using (var scope = host.Services.CreateScope()) // using using like this is for using a temporary resource that will be freed after
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<RegisterDbContext>(); // Tell services to give me access to database
+                    Initialize(context, services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
+            return host;
+        }
+        public static void Initialize(RegisterDbContext context, IServiceProvider services)
+        {
+            // For testing, Sql server object explorer > delete the DB (CHECK close existing connections) > run program
 
-            //context.Database.EnsureCreated();
+            // If not existing -> create it (with migrations)
+            context.Database.Migrate();         // We have used migrations to build our db, thus need this instead.
+            //context.Database.EnsureCreated(); // This is for straight off the bat without migrations
 
-            if (context.Persons.Any())
+            //if (context.Persons.Any())
+            if (context.Roles.Any())
             {
                 return;   // DB has been seeded
             }
+
+            // Roles (Note .Wait() for async)
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            roleManager.CreateAsync(new IdentityRole("Apple")).Wait(); //Dont use admin, user etc. Easyer for hacker to find.
+            roleManager.CreateAsync(new IdentityRole("Banana")).Wait();
+            roleManager.CreateAsync(new IdentityRole("Peach")).Wait(); 
+
+            // Users
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            userManager.CreateAsync(new AppUser() {UserName="asd123" }, "Asd!23").Wait();
+            
+            // Make the user peachy
+            var result = userManager.FindByNameAsync("asd123").Result;
+            userManager.AddToRoleAsync(result, "Peach").Wait();
+
+
 
             // Countries
             var countries = new Country[]

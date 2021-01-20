@@ -1,0 +1,32 @@
+﻿@model List<AppUser>
+@{
+    ViewData["Title"] = "User Manager";
+}
+
+<h1>User Manager</h1>
+
+<p>
+    <a asp-action="People" asp-controller="Register">Back</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><h4>Username</h4></th>
+            <th><h4>Actions</h4></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>
+                    <a href="@Url.Action("AddAdmin", "Admin", new { id = item.Id })">Add as Admin</a>
+                    |
+                    <a href="@Url.Action("RemoveAdmin", "Admin", new { id = item.Id })">Remove as Admin</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
