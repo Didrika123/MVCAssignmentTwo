@@ -54,7 +54,7 @@ namespace MVCAssignmentTwo.Models.Database
 
             // Users
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
-            userManager.CreateAsync(new AppUser() {UserName="asd123" }, "Asd!23").Wait();
+            userManager.CreateAsync(new AppUser() {UserName="asd123", FirstName="????????", LastName="?????????", Birthdate=new DateTime() }, "Asd!23").Wait();
             
             // Make the user peachy
             var result = userManager.FindByNameAsync("asd123").Result;
