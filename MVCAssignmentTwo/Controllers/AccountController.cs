@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MVCAssignmentTwo.Models.Identity;
 using MVCAssignmentTwo.Models.ViewModels;
 
@@ -78,8 +79,16 @@ namespace MVCAssignmentTwo.Controllers
                     return RedirectToAction("Login");
                 }
             }
+            // Change the error message of birthdate to something more comprehensible. Wish I could do this in ViewModel, but the ModelBindingError happens above its head
+            ModelError birthdateModelError = ModelState["Birthdate"]?.Errors?.FirstOrDefault();
+            if (birthdateModelError != null && birthdateModelError.ErrorMessage.StartsWith("The value"))
+            {
+                ModelState["Birthdate"].Errors.Clear();
+                ModelState.AddModelError("Birthdate", "Please Select a Date.");
+            }
+            
             ViewBag.Msg = "Sign up failed.";
-            return View();
+            return View(identityCreate);
         }
 
         public async Task<IActionResult> SignOut()

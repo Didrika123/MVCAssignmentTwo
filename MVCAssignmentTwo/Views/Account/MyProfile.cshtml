@@ -4,16 +4,23 @@
     ViewData["Title"] = "My Profile";
 }
 
-<h1>@Model.UserName</h1>
+<h1>@Model.FirstName @Model.LastName</h1>
 
 <ul>
     <li>
-        <p>@Model.FirstName @Model.LastName</p>
+        <h4>Username</h4>
+        <p>@Model.UserName</p>
     </li>
     <li>
-        <p>@Model.Birthdate</p>
+        <h4>Birthday</h4>
+        <p>@Model.Birthdate.ToShortDateString()</p>
     </li>
     <li>
+        <h4>Title</h4>
+        <p>Very Important Person Manager Person</p>
+    </li>
+    <li>
+        <h4>Account Type</h4>
         @if (@User.IsInRole("Peach"))
         {
             <p>+ + SUPER ADMIN + +</p>
