@@ -9,7 +9,7 @@ namespace MVCAssignmentTwo.Models
     {
         Person Add(CreatePersonViewModel person);
 
-        PeopleViewModel All();
+        PeopleViewModel All(bool eager = true);
         PeopleViewModel All(int page);
         PeopleViewModel FindBy(PeopleViewModel search);
         PeopleViewModel FindBy(PeopleViewModel search, int page);

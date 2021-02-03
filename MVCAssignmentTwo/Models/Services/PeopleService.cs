@@ -34,9 +34,9 @@ namespace MVCAssignmentTwo.Models
             return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City, personLanguages);
         }
 
-        public PeopleViewModel All()
+        public PeopleViewModel All(bool eager)
         {
-            return new PeopleViewModel() { Persons = _peopleRepo.Read() };
+            return new PeopleViewModel() { Persons = _peopleRepo.Read(eager) };
         }
         public PeopleViewModel All(int pageNr)
         {

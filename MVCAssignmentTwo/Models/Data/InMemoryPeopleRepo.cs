@@ -37,7 +37,7 @@ namespace MVCAssignmentTwo.Models
             return _persons.Remove(person);
         }
 
-        public List<Person> Read()
+        public List<Person> Read(bool eager)
         {
             return _persons;
         }

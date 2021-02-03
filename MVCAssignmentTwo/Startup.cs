@@ -28,6 +28,15 @@ namespace MVCAssignmentTwo
                 .AddEntityFrameworkStores<RegisterDbContext>()
                 .AddDefaultTokenProviders();
 
+            // For api, so that we can allow cross-origin-r-somehting  (aka allow other than host to access it)
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowAnyOrigin();
+                   //.AllowCredentials();
+            }));
 
             /*
              * There are different types of injection 
@@ -64,6 +73,7 @@ namespace MVCAssignmentTwo
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("CorsPolicy"); // For api
 
             // For identity
             app.UseAuthentication();

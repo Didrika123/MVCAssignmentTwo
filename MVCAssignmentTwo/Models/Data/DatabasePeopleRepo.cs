@@ -30,12 +30,15 @@ namespace MVCAssignmentTwo.Models.Data
             return _personDbContext.SaveChanges() > 0;
         }
 
-        public List<Person> Read()
+        public List<Person> Read(bool eager)
         {
-            return _personDbContext.Persons
-                .Include(p => p.City).ThenInclude(c => c.Country)
-                .Include(p => p.PersonLanguages).ThenInclude(pl => pl.Language)
-                .OrderByDescending(p => p.Id).ToList(); //For aesthetic: When getting unfiltered list, make new entries come at the top. (Mabe order by Date (date updated / created)) 
+            if(eager)
+                return _personDbContext.Persons
+                    .Include(p => p.City).ThenInclude(c => c.Country)
+                    .Include(p => p.PersonLanguages).ThenInclude(pl => pl.Language)
+                    .OrderByDescending(p => p.Id).ToList(); //For aesthetic: When getting unfiltered list, make new entries come at the top. (Mabe order by Date (date updated / created)) 
+
+            return _personDbContext.Persons.ToList();
         }
 
         public Person Read(int id)  

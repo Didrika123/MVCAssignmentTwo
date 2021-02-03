@@ -31,13 +31,10 @@ namespace MVCAssignmentTwo.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(IdentityLoginViewModel identityLogin) // Mek a view model insted 
+        public async Task<IActionResult> Login(IdentityLoginViewModel identityLogin) 
         {
-
             if (ModelState.IsValid)
             {
-               // username = String.IsNullOrEmpty(username) ? "lol" : username;
-              //  password = String.IsNullOrEmpty(password) ? "lol" : password;
                 var result = await _signInManager.PasswordSignInAsync(identityLogin.Username, identityLogin.Password, false, false); // Persist (false) is saving cookie for keep logged in. Lockedout (false) is for spam attempts
 
                 if (result.Succeeded) // There are more states u can check and give user info about them.
