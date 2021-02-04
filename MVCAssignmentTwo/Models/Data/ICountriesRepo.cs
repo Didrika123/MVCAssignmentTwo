@@ -8,7 +8,7 @@ namespace MVCAssignmentTwo.Models.Data
     public interface ICountriesRepo
     {
         Country Create(string name);
-        List<Country> Read();
+        List<Country> Read(bool eager = true);
         Country Read(int id);
         Country LazyRead(int id);
         Country Update(Country country);

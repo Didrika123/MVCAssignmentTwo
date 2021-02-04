@@ -30,12 +30,15 @@ namespace MVCAssignmentTwo.Models.Data
             return entityEntry.State == EntityState.Deleted;
         }
 
-        public List<Country> Read()
+        public List<Country> Read(bool eager)
         {
+            if(eager)
             return _registerDbContext.Countries
                 .Include(c => c.Cities)
                 .ThenInclude(c => c.Persons)
                 .OrderByDescending(p => p.Id).ToList();
+
+            return _registerDbContext.Countries.ToList();
         }
 
         public Country Read(int id)

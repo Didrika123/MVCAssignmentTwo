@@ -8,7 +8,7 @@ namespace MVCAssignmentTwo.Models.Data
     public interface ICitiesRepo
     {
         City Create(string name, Country country);
-        List<City> Read();
+        List<City> Read(bool eager = true);
         City Read(int id);
         City LazyRead(int id); //Needed to remove entity tracking dependency when updating
         City Update(City city);

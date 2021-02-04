@@ -11,7 +11,7 @@ namespace MVCAssignmentTwo.Models.Services
     {
         City Add(CityViewModel person);
 
-        CitiesViewModel All();
+        CitiesViewModel All(bool eager = true);
         CitiesViewModel All(int page);
         CitiesViewModel FindBy(CitiesViewModel search);
         CitiesViewModel FindBy(CitiesViewModel search, int page);

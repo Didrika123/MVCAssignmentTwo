@@ -25,9 +25,9 @@ namespace MVCAssignmentTwo.Models.Services
             return _citiesRepo.Create(city.Name, city.Country);
         }
 
-        public CitiesViewModel All()
+        public CitiesViewModel All(bool eager)
         {
-            return new CitiesViewModel() { Cities = _citiesRepo.Read() };
+            return new CitiesViewModel() { Cities = _citiesRepo.Read(eager) };
         }
         public CitiesViewModel All(int pageNr)
         {

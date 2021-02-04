@@ -11,7 +11,7 @@ namespace MVCAssignmentTwo.Models.Services
     {
         Country Add(CountryViewModel createCountry);
 
-        CountriesViewModel All();
+        CountriesViewModel All(bool eager = true);
         CountriesViewModel All(int page);
         CountriesViewModel FindBy(CountriesViewModel search);
         CountriesViewModel FindBy(CountriesViewModel search, int page);

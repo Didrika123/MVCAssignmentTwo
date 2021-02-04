@@ -24,11 +24,14 @@ namespace MVCAssignmentTwo.Models
             if (person.City == null)
                 return null;
 
-             //Maybe add a check see if language exist thru language service ?
             List<PersonLanguage> personLanguages = new List<PersonLanguage>();
             foreach (var item in person.LanguageSelectionViewModel.LanguageIds)
             {
+                Language lang = _languagesService.FindBy(item);
+                if (lang == null)
+                    return null;
                 personLanguages.Add(new PersonLanguage() {LanguageId = item });
+                
             }
 
             return _peopleRepo.Create(person.Name, person.PhoneNumber, person.City, personLanguages);

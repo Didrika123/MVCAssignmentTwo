@@ -19,9 +19,9 @@ namespace MVCAssignmentTwo.Models.Services
             return _countriesRepo.Create(country.Name);
         }
 
-        public CountriesViewModel All()
+        public CountriesViewModel All(bool eager)
         {
-            return new CountriesViewModel() { Countries = _countriesRepo.Read() };
+            return new CountriesViewModel() { Countries = _countriesRepo.Read(eager) };
         }
         public CountriesViewModel All(int pageNr)
         {
