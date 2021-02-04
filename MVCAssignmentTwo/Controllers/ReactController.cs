@@ -68,15 +68,20 @@ namespace MVCAssignmentTwo.Controllers
 
         // POST api/<ReactController>
         [HttpPost]
-        public void Post([FromBody] CreatePersonViewModel createPerson)
+        public IActionResult Post([FromBody] CreatePersonViewModel createPerson)
         {
             if (ModelState.IsValid)
             {
-                if (_peopleService.Add(createPerson) != null)
+                Person person = _peopleService.Add(createPerson);
+                if (person != null)
+                {
                     Response.StatusCode = 201;  // Success - Created
+                    return Created("uri?", MakeDTOish(person));
+                }
                 else Response.StatusCode = 500; // Database failed to crate
             }
             else Response.StatusCode = 400;     // Bad request - validation fail
+            return BadRequest(createPerson);
         }
 
         // For Edit Person
