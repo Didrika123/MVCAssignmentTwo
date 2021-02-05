@@ -39,7 +39,23 @@ namespace MVCAssignmentTwo.Controllers
         [HttpGet("cities")]
         public IEnumerable<City> GetCities()
         {
-            return _citiesService.All(false).Cities;
+            return _citiesService.All(eager: false).Cities;
+        }
+        [HttpGet("citiesOfCountry/{id}")]
+        public IEnumerable<City> GetCitiesOfCountry(int id)
+        {
+            Country country = _countriesService.FindBy(id);
+            IEnumerable<City> cities = new List<City>();
+            if (country != null)
+            {
+                cities = country.Cities;
+                foreach (var item in cities)
+                {
+                    item.Country = null;
+                    item.Persons = null;
+                }
+            }
+            return cities;
         }
         [HttpGet("countries")]
         public IEnumerable<Country> GetCountries()
@@ -84,12 +100,23 @@ namespace MVCAssignmentTwo.Controllers
             return BadRequest(createPerson);
         }
 
-        // For Edit Person
-        // PUT api/<ReactController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        //PUT api/<ReactController>/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] CreatePersonViewModel createPerson)
+        {
+            if (ModelState.IsValid)
+            {
+                Person person = _peopleService.Edit(id, createPerson);
+                if (person != null)
+                {
+                    Response.StatusCode = 201;  // Success - Created
+                    return Created("uri?", MakeDTOish(person));
+                }
+                else Response.StatusCode = 500; // Database failed to crate
+            }
+            else Response.StatusCode = 400;     // Bad request - validation fail
+            return BadRequest(createPerson);
+        }
 
         // DELETE api/<ReactController>/5
         [HttpDelete("{id}")]
@@ -110,7 +137,8 @@ namespace MVCAssignmentTwo.Controllers
             // EF handles this on its own, but json not. So have to nullify the back-links.
             // Could make a view model or a data transfer object for person and exclude unwanted stuff (PersonDTO)   (Ex skip the joint table and directly list languages)
             person.City.Persons = null;
-            person.City.Country.Cities = null;
+            if(person.City.Country != null)
+                person.City.Country.Cities = null;
             person.PersonLanguages?.ForEach(pl => { pl.Language.PersonLanguages = null; pl.Person = null; });
             return person;
         }
