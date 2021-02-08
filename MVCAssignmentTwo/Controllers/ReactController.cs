@@ -109,6 +109,7 @@ namespace MVCAssignmentTwo.Controllers
                 Person person = _peopleService.Edit(id, createPerson);
                 if (person != null)
                 {
+                    person.City = _citiesService.FindBy(person.City.Id);
                     Response.StatusCode = 201;  // Success - Created
                     return Created("uri?", MakeDTOish(person));
                 }
